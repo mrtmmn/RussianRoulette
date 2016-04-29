@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/relative_layout_master"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.ericksen.christian.russianroulette.MainActivity"
+    tools:showIn="@layout/activity_main"
+    android:background="#0000ff">
+
+    <RelativeLayout
+        android:layout_width="190dp"
+        android:layout_height="190dp"
+        android:layout_centerInParent="true"
+        android:id="@+id/relative_layout_cylinder">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/center"
+        android:layout_centerInParent="true"
+        android:background="@drawable/center"
+        android:backgroundTint="#ff0000" />
+
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/chamber1"
+        android:clickable="false"
+        android:soundEffectsEnabled="true"
+        android:background="@drawable/chamber_filled"
+        android:layout_above="@+id/chamber6"
+        android:layout_alignLeft="@+id/center"
+        android:layout_alignStart="@+id/center"
+        android:backgroundTint="#ffff00" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/chamber2"
+        android:soundEffectsEnabled="true"
+        android:background="@drawable/chamber_filled"
+        android:layout_below="@+id/chamber1"
+        android:layout_toRightOf="@+id/chamber4"
+        android:layout_toEndOf="@+id/chamber4"
+        android:backgroundTint="#ffff00" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/chamber3"
+        android:soundEffectsEnabled="true"
+        android:background="@drawable/chamber_filled"
+        android:layout_below="@+id/center"
+        android:layout_toRightOf="@+id/chamber4"
+        android:layout_toEndOf="@+id/chamber4"
+        android:backgroundTint="#ffff00" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/chamber4"
+        android:soundEffectsEnabled="true"
+        android:background="@drawable/chamber_filled"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/center"
+        android:layout_margin="20dp"
+        android:backgroundTint="#ffff00" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/chamber5"
+        android:soundEffectsEnabled="true"
+        android:background="@drawable/chamber_filled"
+        android:layout_alignTop="@+id/chamber3"
+        android:layout_alignLeft="@+id/chamber6"
+        android:layout_alignStart="@+id/chamber6"
+        android:backgroundTint="#ffff00" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/chamber6"
+        android:soundEffectsEnabled="true"
+        android:background="@drawable/chamber_filled"
+        android:layout_above="@+id/center"
+        android:layout_toLeftOf="@+id/chamber4"
+        android:layout_toStartOf="@+id/chamber4"
+        android:backgroundTint="#ffff00" />
+
+
+</RelativeLayout>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/shoot"
+        android:text="Shoot"
+        android:layout_alignTop="@+id/spin"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/spin"
+        android:text="Spin"
+        android:layout_marginBottom="41dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+</RelativeLayout>
