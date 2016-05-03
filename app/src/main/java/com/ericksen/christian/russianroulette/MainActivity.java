@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     ImageView center;
     Button shoot;
     Button spin;
+    float n;
     //ImageView arrow;
 
 
@@ -46,51 +47,6 @@ public class MainActivity extends AppCompatActivity {
     String Loaded;
 
     static Random rand = new Random();
-
-    
-
-    public class randomSpinDegrees{}{
-
-        int mDegree = rand.nextInt(7 - 1) + 1;
-        String n = "";
-
-        if(mDegree == 1) {
-            n.equals("360");
-            }
-
-
-
-
-        if(mDegree == 2){
-            n.equals("420");
-
-        }
-
-        if(mDegree == 3)
-        {
-            n.equals("480");
-        }
-
-        if(mDegree == 4)
-        {
-            n.equals("540");
-        }
-
-        if(mDegree==5)
-
-        {
-            n.equals("600");
-        }
-
-        if(mDegree==6)
-
-        {
-            n.equals("660");
-        }
-
-
-        System.out.println(n);
-    }
 
     public class fire {
 
@@ -158,8 +114,7 @@ public class MainActivity extends AppCompatActivity {
             chamber6.equals(isLoaded);
         }
 
-
-
+        randomSpinDegrees();
 
         final RelativeLayout relativeLayoutCylinder = (RelativeLayout) findViewById(R.id.relative_layout_cylinder);
 
@@ -227,7 +182,7 @@ public class MainActivity extends AppCompatActivity {
 //                        System.out.print(n);
 
 
-                final RotateAnimation rotate1 = new RotateAnimation(0, 420, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+                final RotateAnimation rotate1 = new RotateAnimation(0, n, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
                         //RotateAnimation rotate = new RotateAnimation(0, 360, 90, 90);
                 rotate1.setDuration(1000);
                 rotate1.setInterpolator(new LinearInterpolator());
@@ -306,6 +261,35 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setAnimationListener(Animation.AnimationListener animationListener) {
+    }
+
+    public float randomSpinDegrees(){
+
+        int mDegree = rand.nextInt(7-1) + 1;
+
+        if(mDegree == 1) {
+            n = 360;
+        }else if(mDegree == 2){
+            n = 420;
+
+        }else if(mDegree == 3)
+        {
+            n = 480;
+        }else if(mDegree == 4)
+        {
+            n = 540;
+        }else if(mDegree==5)
+
+        {
+            n = 600;
+        }else if(mDegree==6)
+
+        {
+            n = 660;
+        }
+
+        return n;
+
     }
 }
 

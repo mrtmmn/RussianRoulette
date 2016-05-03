@@ -11,7 +11,7 @@ public class Chamber {
     ImageView chamber4;
     ImageView chamber5;
     ImageView chamber6;
-    
+
     public Chamber(Boolean isFull, Boolean isLoaded) {
 
     }
