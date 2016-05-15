@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
 
     RelativeLayout relativeLayoutCylinder;
 
-    boolean isChamberLoaded = false;
+    boolean isChamberLoaded;
 
     int ranIntToDetermineRotation;
     int temp = 0;
@@ -145,44 +145,84 @@ public class MainActivity extends AppCompatActivity {
 
                 Resources res = getResources();
 
-                if (isChamberLoaded) {
-                    Toast toast = Toast.makeText(MainActivity.this, "You have been shot. So now you must take a shot.", Toast.LENGTH_SHORT);
-                    toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
-                    toast.show();
-                    //determine what the current position of the animated object is so that I can incorporate another if statement
-                    //which will determine which imageview is at the top and if there is a need to change the drawable from full to empty
-
-                    if (temp / 360 == 1 || temp - 0 == 0) {
-                        if (imageViewChamber1.getBackground() == res.getDrawable(R.drawable.chamber_filled)) {
-                            imageViewChamber1.setImageResource(R.drawable.chamber_empty);
-                        } 
-                    } else if (temp / 300 == 1) {
-                        if (imageViewChamber6.getBackground() == res.getDrawable(R.drawable.chamber_filled)) {
-                            imageViewChamber6.setImageResource(R.drawable.chamber_empty);
-                        }
-                    } else if (temp / 240 == 1) {
-                        if (imageViewChamber5.getBackground() == res.getDrawable(R.drawable.chamber_filled)) {
-                            imageViewChamber5.setImageResource(R.drawable.chamber_empty);
-                        }
-                    } else if (temp / 180 == 1) {
-                        if (imageViewChamber4.getBackground() == res.getDrawable(R.drawable.chamber_filled)) {
-                            imageViewChamber4.setImageResource(R.drawable.chamber_empty);
-                        }
-                    } else if (temp / 120 == 1) {
-                        if (imageViewChamber3.getBackground() == res.getDrawable(R.drawable.chamber_filled)) {
-                            imageViewChamber3.setImageResource(R.drawable.chamber_empty);
-                        }
-                    } else if (temp / 60 == 1) {
-                        if (imageViewChamber2.getBackground() == res.getDrawable(R.drawable.chamber_filled)) {
-                            imageViewChamber2.setImageResource(R.drawable.chamber_empty);
-                        }
-                    }
-
-                } else {
+                if (!isChamberLoaded) {
                     Toast toastTwo = Toast.makeText(MainActivity.this, "You're safe this time. Pass it to the next person.", Toast.LENGTH_SHORT);
                     toastTwo.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
                     toastTwo.show();
+                    //determine what the current position of the animated object is so that I can incorporate another if statement
+                    //which will determine which imageview is at the top and if there is a need to change the drawable from full to empty
+
+                } else if (isChamberLoaded) {
+                    switch (temp) {
+
+                        case 1: temp = 360;
+                                if (imageViewChamber1.getBackground() == res.getDrawable(R.drawable.chamber_filled)) {
+                                    imageViewChamber1.setImageResource(R.drawable.chamber_empty);
+                                } else {
+                                    Toast toastTwo = Toast.makeText(MainActivity.this, "You're safe this time. Pass it to the next person.", Toast.LENGTH_SHORT);
+                                    toastTwo.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
+                                    toastTwo.show();
+                                } break;
+
+                        case 2: temp = 300;
+                                if (imageViewChamber6.getBackground() == res.getDrawable(R.drawable.chamber_filled)) {
+                                    imageViewChamber6.setImageResource(R.drawable.chamber_empty);
+                                } else {
+                                    Toast toastTwo = Toast.makeText(MainActivity.this, "You're safe this time. Pass it to the next person.", Toast.LENGTH_SHORT);
+                                    toastTwo.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
+                                    toastTwo.show();
+                                } break;
+
+                        case 3: temp = 240;
+                                if (imageViewChamber5.getBackground() == res.getDrawable(R.drawable.chamber_filled)) {
+                                    imageViewChamber5.setImageResource(R.drawable.chamber_empty);
+                                } else {
+                                    Toast toastTwo = Toast.makeText(MainActivity.this, "You're safe this time. Pass it to the next person.", Toast.LENGTH_SHORT);
+                                    toastTwo.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
+                                    toastTwo.show();
+                                } break;
+
+                        case 4: temp = 180;
+                                if (imageViewChamber4.getBackground() == res.getDrawable(R.drawable.chamber_filled)) {
+                                    imageViewChamber4.setImageResource(R.drawable.chamber_empty);
+                                } else {
+                                    Toast toastTwo = Toast.makeText(MainActivity.this, "You're safe this time. Pass it to the next person.", Toast.LENGTH_SHORT);
+                                    toastTwo.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
+                                    toastTwo.show();
+                                } break;
+
+                        case 5: temp = 120;
+                                if (imageViewChamber3.getBackground() == res.getDrawable(R.drawable.chamber_filled)) {
+                                    imageViewChamber3.setImageResource(R.drawable.chamber_empty);
+                                } else {
+                                    Toast toastTwo = Toast.makeText(MainActivity.this, "You're safe this time. Pass it to the next person.", Toast.LENGTH_SHORT);
+                                    toastTwo.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
+                                    toastTwo.show();
+                                } break;
+
+                        case 6: temp = 60;
+                                if (imageViewChamber2.getBackground() == res.getDrawable(R.drawable.chamber_filled)) {
+                                    imageViewChamber2.setImageResource(R.drawable.chamber_empty);
+                                } else {
+                                    Toast toastTwo = Toast.makeText(MainActivity.this, "You're safe this time. Pass it to the next person.", Toast.LENGTH_SHORT);
+                                    toastTwo.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
+                                    toastTwo.show();
+                                } break;
+
+                        case 7: temp = 0;
+                                if (imageViewChamber1.getBackground() == res.getDrawable(R.drawable.chamber_filled)) {
+                                    imageViewChamber1.setImageResource(R.drawable.chamber_empty);
+                                } else {
+                                    Toast toastTwo = Toast.makeText(MainActivity.this, "You're safe this time. Pass it to the next person.", Toast.LENGTH_SHORT);
+                                    toastTwo.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
+                                    toastTwo.show();
+                                } break;
+
+                        default: break;
+                    }
+
                 }
+
             }
         });
 
@@ -455,6 +495,60 @@ public class MainActivity extends AppCompatActivity {
 ////                        relativeLayoutCylinder.setPivotY(relativeLayoutCylinder.getHeight() / 2);
 ////                        relativeLayoutCylinder.setSaveEnabled(true);
 //                    }
+
+//switch (temp) {
+//case 1: temp / 360 == 1 || temp - 0 == 0
+//        if (imageViewChamber1.getBackground() == res.getDrawable(R.drawable.chamber_filled)) {
+//        imageViewChamber1.setImageResource(R.drawable.chamber_empty);
+//        }
+//        else if (temp / 300 == 1) {
+//        if (imageViewChamber6.getBackground() == res.getDrawable(R.drawable.chamber_filled)) {
+//        imageViewChamber6.setImageResource(R.drawable.chamber_empty);
+//        }
+//        } else if (temp / 240 == 1) {
+//        if (imageViewChamber5.getBackground() == res.getDrawable(R.drawable.chamber_filled)) {
+//        imageViewChamber5.setImageResource(R.drawable.chamber_empty);
+//        }
+//        } else if (temp / 180 == 1) {
+//        if (imageViewChamber4.getBackground() == res.getDrawable(R.drawable.chamber_filled)) {
+//        imageViewChamber4.setImageResource(R.drawable.chamber_empty);
+//        }
+//        } else if (temp / 120 == 1) {
+//        if (imageViewChamber3.getBackground() == res.getDrawable(R.drawable.chamber_filled)) {
+//        imageViewChamber3.setImageResource(R.drawable.chamber_empty);
+//        }
+//        } else if (temp / 60 == 1) {
+//        if (imageViewChamber2.getBackground() == res.getDrawable(R.drawable.chamber_filled)) {
+//        imageViewChamber2.setImageResource(R.drawable.chamber_empty);
+//        }
+//        }
+//        }
+
+//        if (temp / 360 == 1 || temp - 0 == 0) {
+//        if (imageViewChamber1.getBackground() == res.getDrawable(R.drawable.chamber_filled)) {
+//        imageViewChamber1.setImageResource(R.drawable.chamber_empty);
+//        }
+//        } else if (temp / 300 == 1) {
+//        if (imageViewChamber6.getBackground() == res.getDrawable(R.drawable.chamber_filled)) {
+//        imageViewChamber6.setImageResource(R.drawable.chamber_empty);
+//        }
+//        } else if (temp / 240 == 1) {
+//        if (imageViewChamber5.getBackground() == res.getDrawable(R.drawable.chamber_filled)) {
+//        imageViewChamber5.setImageResource(R.drawable.chamber_empty);
+//        }
+//        } else if (temp / 180 == 1) {
+//        if (imageViewChamber4.getBackground() == res.getDrawable(R.drawable.chamber_filled)) {
+//        imageViewChamber4.setImageResource(R.drawable.chamber_empty);
+//        }
+//        } else if (temp / 120 == 1) {
+//        if (imageViewChamber3.getBackground() == res.getDrawable(R.drawable.chamber_filled)) {
+//        imageViewChamber3.setImageResource(R.drawable.chamber_empty);
+//        }
+//        } else if (temp / 60 == 1) {
+//        if (imageViewChamber2.getBackground() == res.getDrawable(R.drawable.chamber_filled)) {
+//        imageViewChamber2.setImageResource(R.drawable.chamber_empty);
+//        }
+//        }
 //
 //
 //
