@@ -14,310 +14,408 @@ import android.widget.Toast;
 
 import java.util.Random;
 
-
-//@SuppressWarnings("ResultOfMethodCallIgnored")
 public class MainActivity extends AppCompatActivity {
 
-    ImageView chamber1;
-    ImageView chamber2;
-    ImageView chamber3;
-    ImageView chamber4;
-    ImageView chamber5;
-    ImageView chamber6;
-    ImageView center;
-    Button shoot;
-    Button spin;
-    float n;
-    //ImageView arrow;
+    ImageView imageViewChamber1;
+    ImageView imageViewChamber2;
+    ImageView imageViewChamber3;
+    ImageView imageViewChamber4;
+    ImageView imageViewChamber5;
+    ImageView imageViewChamber6;
+//    ImageView imageViewCenter;
 
+    Button buttonForShooting;
+    Button buttonForSpinning;
 
-    boolean chamber1Loaded = false;
-    boolean chamber2Full;
-    boolean chamber2Loaded = false;
-    boolean chamber3Full;
-    boolean chamber3Loaded = false;
-    boolean chamber4Full;
-    boolean chamber4Loaded = false;
-    boolean chamber5Full;
-    boolean chamber5Loaded = false;
-    boolean chamber6Full;
-    boolean chamber6Loaded = false;
-    boolean isLoaded =false;
-    boolean isFull;
-    String Loaded;
+    RelativeLayout relativeLayoutCylinder;
 
-    static Random rand = new Random();
+    boolean isChamberLoaded;
 
-    public class fire {
-
-        public void main(String[] args) {
-
-
-
-//            Random  rand = new Random();
-            int randomBarrel = rand.nextInt(7 - 1) + 1;
-
-
-            if (randomBarrel == 1) {chamber1Loaded = true;}
-
-            //chamber2Loaded = false; chamber3Loaded = false; chamber4Loaded = false; chamber5Loaded = false; chamber6Loaded = false;
-
-            if (randomBarrel == 2) {chamber2Loaded = true;}
-
-            if (randomBarrel == 3) {chamber3Loaded = true;}
-
-            if (randomBarrel == 4) {chamber4Loaded = true;}
-
-            if (randomBarrel == 5) {chamber5Loaded = true;}
-
-            if (randomBarrel == 6) {chamber6Loaded = true;}
-        }
-
-
-
-
-    }
-
+    int ranIntToDetermineRotation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        chamber1 = (ImageView) findViewById(R.id.chamber1);
-        chamber2 = (ImageView) findViewById(R.id.chamber2);
-        chamber3 = (ImageView) findViewById(R.id.chamber3);
-        chamber4 = (ImageView) findViewById(R.id.chamber4);
-        chamber5 = (ImageView) findViewById(R.id.chamber5);
-        chamber6 = (ImageView) findViewById(R.id.chamber6);
-        center = (ImageView) findViewById(R.id.center);
-        shoot = (Button) findViewById(R.id.shoot);
-        spin = (Button) findViewById(R.id.spin);
-        //arrow = (ImageView) findViewById(R.id.arrow);
+        imageViewChamber1 = (ImageView) findViewById(R.id.chamber1);
+        imageViewChamber2 = (ImageView) findViewById(R.id.chamber2);
+        imageViewChamber3 = (ImageView) findViewById(R.id.chamber3);
+        imageViewChamber4 = (ImageView) findViewById(R.id.chamber4);
+        imageViewChamber5 = (ImageView) findViewById(R.id.chamber5);
+        imageViewChamber6 = (ImageView) findViewById(R.id.chamber6);
+//        imageViewCenter = (ImageView) findViewById(R.id.center);
 
-        if (chamber1Loaded) {
-            chamber1.equals(isLoaded);
+        buttonForShooting = (Button) findViewById(R.id.shoot);
+        buttonForSpinning = (Button) findViewById(R.id.spin);
 
-        } else if (chamber2Loaded) {
-            chamber2.equals(isLoaded);
+        relativeLayoutCylinder = (RelativeLayout) findViewById(R.id.relative_layout_cylinder);
 
-        } else if (chamber3Loaded) {
-            chamber3.equals(isLoaded);
-
-        } else if (chamber4Loaded) {
-            chamber4.equals(isLoaded);
-
-        } else if (chamber5Loaded) {
-            chamber5.equals(isLoaded);
-
-        } else if (chamber6Loaded) {
-            chamber6.equals(isLoaded);
-        }
-
-        randomSpinDegrees();
-
-        final RelativeLayout relativeLayoutCylinder = (RelativeLayout) findViewById(R.id.relative_layout_cylinder);
-
-
-//        final RotateAnimation rotate1 = new RotateAnimation(0, 360, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-//        //RotateAnimation rotate = new RotateAnimation(0, 360, 90, 90);
-//        rotate1.setDuration(1000);
-//        rotate1.setInterpolator(new LinearInterpolator());
-//
-//       final RotateAnimation rotate2 = new RotateAnimation(0, 360, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-//        rotate2.setDuration(3000);
-//        rotate2.setInterpolator(new DecelerateInterpolator());
-
-
-
-        //randomSpinDegrees degreesClass = new randomSpinDegrees();
-
-
-
-        spin.setOnClickListener(new View.OnClickListener() {
+        buttonForSpinning.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+                randomIntForRotation();
+
+                //add animation that takes ranIntToDetermineRotation as a value for transformation
+            }
+        });
+
+        buttonForShooting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                randomIntForLoading();
+
+                if (isChamberLoaded) {
+                    Toast.makeText(MainActivity.this, "You have been shot. So now you must take a shot.", Toast.LENGTH_SHORT).show();
+                    //determine what the current position of the animated object is so that I can incorporate another if statement
+                    //which will determine which imageview is at the top and if there is a need to change the drawable from full to empty
+                } else {
+                    Toast.makeText(MainActivity.this, "You're safe this time. Pass it to the next person.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+    }
+
+    public int randomIntForRotation () {
+
+        Random randomRotation = new Random();
+        int intForRotation = randomRotation.nextInt((6-1)+1)+1;
+        //from 0 to 5 since (5+1) or ((6-1)+1) with an additional + 1 outside of the parentheses
+        // so [0...5] becomes [1...6]
+
+        ranIntToDetermineRotation = (intForRotation * 60);
+        //ranIntToDetermineRotation will be either 60, 120, 180, 240, 300, or 360
+        return ranIntToDetermineRotation;
+
+    }
+
+    public boolean randomIntForLoading () {
+
+        Random randomRotation = new Random();
+        int intForLoading = randomRotation.nextInt(1 - 0);
+
+        if (intForLoading == 1) {
+            isChamberLoaded = true;
+        } else {
+            isChamberLoaded = false;
+        }
+
+        return isChamberLoaded;
+
+    }
+
+}
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//    boolean chamber1Loaded = false;
+//    boolean chamber2Full;
+//    boolean chamber2Loaded = false;
+//    boolean chamber3Full;
+//    boolean chamber3Loaded = false;
+//    boolean chamber4Full;
+//    boolean chamber4Loaded = false;
+//    boolean chamber5Full;
+//    boolean chamber5Loaded = false;
+//    boolean chamber6Full;
+//    boolean chamber6Loaded = false;
+//    boolean isLoaded =false;
+//    boolean isFull;
+//    String Loaded;
+
+//    static Random rand = new Random();
+
+////            Random  rand = new Random();
+//            int randomBarrel = rand.nextInt(7 - 1) + 1;
+
+
+//            if (randomBarrel == 1) {chamber1Loaded = true;}
 //
-//                    int randomDegrees = (int)(Math.random()*6 + 1);
-//                    String degrees = "";
+//            //chamber2Loaded = false; chamber3Loaded = false; chamber4Loaded = false; chamber5Loaded = false; chamber6Loaded = false;
 //
-//                    float n;
+//            if (randomBarrel == 2) {chamber2Loaded = true;}
+//
+//            if (randomBarrel == 3) {chamber3Loaded = true;}
+//
+//            if (randomBarrel == 4) {chamber4Loaded = true;}
+//
+//            if (randomBarrel == 5) {chamber5Loaded = true;}
+//
+//            if (randomBarrel == 6) {chamber6Loaded = true;} }
+
+
+
+
+//        if (chamber1Loaded) {
+//            chamber1.equals(isLoaded);
+//
+//        } else if (chamber2Loaded) {
+//            chamber2.equals(isLoaded);
+//
+//        } else if (chamber3Loaded) {
+//            chamber3.equals(isLoaded);
+//
+//        } else if (chamber4Loaded) {
+//            chamber4.equals(isLoaded);
+//
+//        } else if (chamber5Loaded) {
+//            chamber5.equals(isLoaded);
+//
+//        } else if (chamber6Loaded) {
+//            chamber6.equals(isLoaded);
+//        }
+//
+//        randomSpinDegrees();
+//
+//        final RelativeLayout relativeLayoutCylinder = (RelativeLayout) findViewById(R.id.relative_layout_cylinder);
 //
 //
-//                    // Random randomSpin = new Random();
-//                    //int randomDegrees = randomSpin.nextInt(7 - 1) + 1;
+////        final RotateAnimation rotate1 = new RotateAnimation(0, 360, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+////        //RotateAnimation rotate = new RotateAnimation(0, 360, 90, 90);
+////        rotate1.setDuration(1000);
+////        rotate1.setInterpolator(new LinearInterpolator());
+////
+////       final RotateAnimation rotate2 = new RotateAnimation(0, 360, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+////        rotate2.setDuration(3000);
+////        rotate2.setInterpolator(new DecelerateInterpolator());
 //
-//                    public void main(String[] args) {
 //
-//                        for (int i = 0; i <= 6; i++){
 //
-//                            switch (randomDegrees) {
-//                                case 0:
-//                                    degrees = "420";
-//                                    break;
-//                                case 1:
-//                                    degrees = "480";
-//                                    break;
-//                                case 2:
-//                                    degrees = "540";
-//                                    break;
-//                                case 3:
-//                                    degrees = "600";
-//                                    break;
-//                                case 4:
-//                                    degrees = "660";
-//                                    break;
-//                                case 5:
-//                                    degrees = "720";
-//                                    break;
-//                                default:
-//                                    degrees = "0";
-//                            }
-//                        }
-//                        float n = Float.parseFloat(degrees);
-//                        System.out.print(n);
-
-
-                final RotateAnimation rotate1 = new RotateAnimation(0, n, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-                        //RotateAnimation rotate = new RotateAnimation(0, 360, 90, 90);
-                rotate1.setDuration(1000);
-                rotate1.setInterpolator(new LinearInterpolator());
-
-                final RotateAnimation rotate2 = new RotateAnimation(0, 420, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-                rotate2.setDuration(3000);
-                rotate2.setInterpolator(new DecelerateInterpolator());
-
-
-                setAnimationListener(new Animation.AnimationListener() {
-                    @Override
-                    public void onAnimationStart(Animation animation) {
-                        assert relativeLayoutCylinder != null;
-                        relativeLayoutCylinder.startAnimation(rotate1);
-                        relativeLayoutCylinder.startAnimation(rotate2);
-                        relativeLayoutCylinder.setPivotX(relativeLayoutCylinder.getWidth() / 2);
-                        relativeLayoutCylinder.setPivotY(relativeLayoutCylinder.getHeight() / 2);
-
-                    }
-
-                    @Override
-                    public void onAnimationEnd(Animation animation) {
-
-
-
-                    }
-
-                    @Override
-                    public void onAnimationRepeat(Animation rotate) {
-
-                    }
-                });
-
-
-
+//        //randomSpinDegrees degreesClass = new randomSpinDegrees();
+//
+//
+//
+//        spin.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//
+//
+//
+////
+////                    int randomDegrees = (int)(Math.random()*6 + 1);
+////                    String degrees = "";
+////
+////                    float n;
+////
+////
+////                    // Random randomSpin = new Random();
+////                    //int randomDegrees = randomSpin.nextInt(7 - 1) + 1;
+////
+////                    public void main(String[] args) {
+////
+////                        for (int i = 0; i <= 6; i++){
+////
+////                            switch (randomDegrees) {
+////                                case 0:
+////                                    degrees = "420";
+////                                    break;
+////                                case 1:
+////                                    degrees = "480";
+////                                    break;
+////                                case 2:
+////                                    degrees = "540";
+////                                    break;
+////                                case 3:
+////                                    degrees = "600";
+////                                    break;
+////                                case 4:
+////                                    degrees = "660";
+////                                    break;
+////                                case 5:
+////                                    degrees = "720";
+////                                    break;
+////                                default:
+////                                    degrees = "0";
+////                            }
+////                        }
+////                        float n = Float.parseFloat(degrees);
+////                        System.out.print(n);
+//
+//
+//                final RotateAnimation rotate1 = new RotateAnimation(0, n, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+//                        //RotateAnimation rotate = new RotateAnimation(0, 360, 90, 90);
+//                rotate1.setDuration(1000);
+//                rotate1.setInterpolator(new LinearInterpolator());
+//
+//                final RotateAnimation rotate2 = new RotateAnimation(0, 420, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+//                rotate2.setDuration(3000);
+//                rotate2.setInterpolator(new DecelerateInterpolator());
+//
+//
+//                setAnimationListener(new Animation.AnimationListener() {
+//                    @Override
+//                    public void onAnimationStart(Animation animation) {
 //                        assert relativeLayoutCylinder != null;
 //                        relativeLayoutCylinder.startAnimation(rotate1);
 //                        relativeLayoutCylinder.startAnimation(rotate2);
 //                        relativeLayoutCylinder.setPivotX(relativeLayoutCylinder.getWidth() / 2);
 //                        relativeLayoutCylinder.setPivotY(relativeLayoutCylinder.getHeight() / 2);
-//                        relativeLayoutCylinder.setSaveEnabled(true);
-                    }
-
-
-
-                });
-
-
-                //chambe
-//                chamber2.startAnimation(rotate);
-//                chamber3.startAnimation(rotate);
-//                chamber4.startAnimation(rotate);
-//                chamber5.startAnimation(rotate);
-//                chamber6.startAnimation(rotate);
-
-
-
-        shoot.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v){
-                   if (isFull && (isLoaded=true)){
-                       Toast.makeText(MainActivity.this, "BAM! Take A Shot!", Toast.LENGTH_SHORT).show();
-                   }
-                if (isFull && (isLoaded=false)){
-
-                }
-
-                if (isFull=false){
-
-                }
-
-
-                
-            }
-        });
-    }
-
-    private void setAnimationListener(Animation.AnimationListener animationListener) {
-    }
-
-    public float randomSpinDegrees(){
-
-        int mDegree = rand.nextInt(7-1) + 1;
-
-        if(mDegree == 1) {
-            n = 360;
-        }else if(mDegree == 2){
-            n = 420;
-
-        }else if(mDegree == 3)
-        {
-            n = 480;
-        }else if(mDegree == 4)
-        {
-            n = 540;
-        }else if(mDegree==5)
-
-        {
-            n = 600;
-        }else if(mDegree==6)
-
-        {
-            n = 660;
-        }
-
-        return n;
-
-    }
-}
-
-
-
-//        final Animation animRotate = AnimationUtils.loadAnimation(this, R.anim.rotate);
-//        chamber1.startAnimation(animRotate);
-//        chamber1.setPivotX(0);
-//        chamber1.setPivotY(0);
 //
-//        animRotate.setAnimationListener(new Animation.AnimationListener() {
+//                    }
+//
+//                    @Override
+//                    public void onAnimationEnd(Animation animation) {
+//
+//
+//
+//                    }
+//
+//                    @Override
+//                    public void onAnimationRepeat(Animation rotate) {
+//
+//                    }
+//                });
+//
+//
+//
+////                        assert relativeLayoutCylinder != null;
+////                        relativeLayoutCylinder.startAnimation(rotate1);
+////                        relativeLayoutCylinder.startAnimation(rotate2);
+////                        relativeLayoutCylinder.setPivotX(relativeLayoutCylinder.getWidth() / 2);
+////                        relativeLayoutCylinder.setPivotY(relativeLayoutCylinder.getHeight() / 2);
+////                        relativeLayoutCylinder.setSaveEnabled(true);
+//                    }
+//
+//
+//
+//                });
+//
+//
+//                //chambe
+////                chamber2.startAnimation(rotate);
+////                chamber3.startAnimation(rotate);
+////                chamber4.startAnimation(rotate);
+////                chamber5.startAnimation(rotate);
+////                chamber6.startAnimation(rotate);
+//
+//
+//
+//        shoot.setOnClickListener(new View.OnClickListener() {
 //            @Override
-//            public void onAnimationStart(Animation animation) {
-//                chamber1.getPivotX();
-//                chamber1.getPivotY();
+//            public void onClick(View v){
+//                   if (isFull && (isLoaded=true)){
+//                       Toast.makeText(MainActivity.this, "BAM! Take A Shot!", Toast.LENGTH_SHORT).show();
+//                   }
+//                if (isFull && (isLoaded=false)){
 //
-//            }
+//                }
 //
-//            @Override
-//            public void onAnimationEnd(Animation animation) {
+//                if (isFull=false){
 //
-//            }
+//                }
 //
-//            @Override
-//            public void onAnimationRepeat(Animation rotate) {
+//
 //
 //            }
 //        });
+//    }
+//
+//    private void setAnimationListener(Animation.AnimationListener animationListener) {
+//    }
+//
+//    public float randomSpinDegrees(){
+//
+//        int mDegree = rand.nextInt(7-1) + 1;
+//
+//        if(mDegree == 1) {
+//            n = 360;
+//        }else if(mDegree == 2){
+//            n = 420;
+//
+//        }else if(mDegree == 3)
+//        {
+//            n = 480;
+//        }else if(mDegree == 4)
+//        {
+//            n = 540;
+//        }else if(mDegree==5)
+//
+//        {
+//            n = 600;
+//        }else if(mDegree==6)
+//
+//        {
+//            n = 660;
+//        }
+//
+//        return n;
 //
 //    }
 //}
+//
+//
+//
+////        final Animation animRotate = AnimationUtils.loadAnimation(this, R.anim.rotate);
+////        chamber1.startAnimation(animRotate);
+////        chamber1.setPivotX(0);
+////        chamber1.setPivotY(0);
+////
+////        animRotate.setAnimationListener(new Animation.AnimationListener() {
+////            @Override
+////            public void onAnimationStart(Animation animation) {
+////                chamber1.getPivotX();
+////                chamber1.getPivotY();
+////
+////            }
+////
+////            @Override
+////            public void onAnimationEnd(Animation animation) {
+////
+////            }
+////
+////            @Override
+////            public void onAnimationRepeat(Animation rotate) {
+////
+////            }
+////        });
