@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
                 ObjectAnimator rotateBarrel =
                         ObjectAnimator.ofFloat(relativeLayoutCylinder, View.ROTATION, ranIntToDetermineRotation);
                 rotateBarrel.start();
-                // Spin the button around in a full circle
+                // Spin the recyclerview 
 
                 Log.d("ranInt_rotation", "ObjectAnimator: " + ranIntToDetermineRotation);
 
