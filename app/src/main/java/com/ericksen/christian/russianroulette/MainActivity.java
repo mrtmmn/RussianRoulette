@@ -3,6 +3,7 @@ package com.ericksen.christian.russianroulette;
 import android.animation.Animator;
 import android.animation.AnimatorInflater;
 import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
 import android.animation.ValueAnimator;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -59,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
             imageViewCenter.getLocationOnScreen(imageViewCenterCoordinates);
             Log.d("imageViewCenterCoord", "onCreate: " + Arrays.toString(imageViewCenterCoordinates));
             //should have a (1/2x, 1/2y) values in comparison to the relative layout
-            //window vs. screen => I think screen would be more constant and somehoe related to the pixel dimensions
+            //window vs. screen => I think screen would be more constant and somehow related to the pixel dimensions
         }
 
         buttonForShooting = (Button) findViewById(R.id.shoot);
@@ -81,12 +82,17 @@ public class MainActivity extends AppCompatActivity {
                 randomIntForRotation();
                 Log.d("jiggery-pokery-onclick", "ranIntToDetermineRotation: " + ranIntToDetermineRotation);
 
+                PropertyValuesHolder rotationX = PropertyValuesHolder.ofFloat(View.ROTATION, temp, ranIntToDetermineRotation);
+                PropertyValuesHolder rotationY = PropertyValuesHolder.ofFloat(View.ROTATION, temp, ranIntToDetermineRotation);
+
                 ObjectAnimator rotateBarrel =
-                        ObjectAnimator.ofFloat(relativeLayoutCylinder, View.ROTATION, temp, ranIntToDetermineRotation);
-                rotateBarrel.setRepeatCount(1);
-                rotateBarrel.setRepeatMode(ValueAnimator.REVERSE);
+                        ObjectAnimator.ofPropertyValuesHolder(relativeLayoutCylinder, rotationX, rotationY);
+                rotateBarrel.setDuration(5000);
                 rotateBarrel.start();
                 // Spin the button around in a full circle
+
+                //Now I need to add an onAnimationListener so to be able to add a crescendo in the beginning
+                //and a decrescendo at the end in terms of speed so to mimick the force of gravity
 
                 Log.d("temp_variable", "onClick: " + temp);
 
