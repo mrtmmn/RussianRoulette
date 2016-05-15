@@ -45,8 +45,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        relativeLayoutCylinder = (RelativeLayout) findViewById(R.id.relative_layout_cylinder);
-
         imageViewChamber1 = (ImageView) findViewById(R.id.chamber1);
         imageViewChamber2 = (ImageView) findViewById(R.id.chamber2);
         imageViewChamber3 = (ImageView) findViewById(R.id.chamber3);
@@ -54,6 +52,28 @@ public class MainActivity extends AppCompatActivity {
         imageViewChamber5 = (ImageView) findViewById(R.id.chamber5);
         imageViewChamber6 = (ImageView) findViewById(R.id.chamber6);
         imageViewCenter = (ImageView) findViewById(R.id.center);
+
+        relativeLayoutCylinder = (RelativeLayout) findViewById(R.id.relative_layout_cylinder);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR2) {
+
+            if (relativeLayoutCylinder != null) {
+
+                int left = relativeLayoutCylinder.getLeft();
+                int right = relativeLayoutCylinder.getRight();
+                int bottom = relativeLayoutCylinder.getBottom();
+                int top = relativeLayoutCylinder.getTop();
+
+                try {
+                    Log.d("left", "left: " + left);
+                    Log.d("right", "right: " + right);
+                    Log.d("bottom", "bottom: " + bottom);
+                    Log.d("top", "top: " + top);
+                } catch (NullPointerException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }
 
         buttonForSpinning = (Button) findViewById(R.id.spin);
         buttonForSpinning.setOnClickListener(new View.OnClickListener() {
@@ -84,12 +104,14 @@ public class MainActivity extends AppCompatActivity {
                 if (imageViewCenter != null) {
 
                     imageViewCenter.getLocationOnScreen(iVCCOnScreen);
-                    Log.d("iVCCOnScreen", "onCreate: " + Arrays.toString(iVCCOnScreen));
+                    Log.d("iVCCOnScreen-X", "iVCCOnScreen-X: " + iVCCOnScreen[0]);
+                    Log.d("iVCCOnScreen-Y", "iVCCOnScreen-Y: " + iVCCOnScreen[1]);
                     //should have a (1/2x, 1/2y) values in comparison to the relative layout
                     //window vs. screen => I think screen would be more constant and somehow related to the pixel dimensions
 
                     imageViewCenter.getLocationInWindow(iVCCInWindow);
-                    Log.d("iVCCInWindow", "onCreate: " + Arrays.toString(iVCCInWindow));
+                    Log.d("iVCCInWindow-X", "iVCCInWindow: " + iVCCInWindow[0]);
+                    Log.d("iVCCInWindow-Y", "iVCCInWindow: " + iVCCInWindow[1]);
 
                 }
 
@@ -98,19 +120,12 @@ public class MainActivity extends AppCompatActivity {
                     //imageViewCenter should have the following coordinates (.5x, .5y) if relativeLayoutCylinder is (x, y)
                     //so whichever imageViewChamber is on top after the animation stops will be (~.7x, .5y) ->
                     //so I just have to look for whichever imageview has the exact same y value but a greater x value
-                    Log.d("rLCOnScreen", "onCreate: " + Arrays.toString(rLCOnScreen));
+                    Log.d("rLCOnScreen-X", "rLCOnScreen-X: " + rLCOnScreen[0]);
+                    Log.d("rLCOnScreen-Y", "rLCOnScreen-Y: " + rLCOnScreen[1]);
 
                     relativeLayoutCylinder.getLocationInWindow(rLCInWindow);
-                    Log.d("rLCInWindow", "onCreate: " + Arrays.toString(rLCInWindow));
-
-                    Rect rect = relativeLayoutCylinder.getClipBounds();
-                    int rectX = rect.centerX();
-                    int rectY = rect.centerY();
-                    String rectIntersect = rect.toString();
-
-                    Log.d("rectX", "CenterX: " + rectX);
-                    Log.d("rectY", "CenterY: " + rectY);
-                    Log.d("rectIntersect", "toString: " + rectIntersect);
+                    Log.d("rLCInWindow-X", "rLCInWindow: " + rLCInWindow[0]);
+                    Log.d("rLCInWindow-Y", "rLCInWindow: " + rLCInWindow[1]);
 
                 }
 
