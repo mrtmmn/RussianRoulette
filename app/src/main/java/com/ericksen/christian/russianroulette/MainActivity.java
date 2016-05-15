@@ -143,82 +143,92 @@ public class MainActivity extends AppCompatActivity {
                 randomIntForLoading();
                 Log.d("isChamberLoaded-onclick", "randomIntForLoading: " + isChamberLoaded);
 
-                Resources res = getResources();
+//                Resources res = getResources();
 
                 if (!isChamberLoaded) {
-                    Toast toastTwo = Toast.makeText(MainActivity.this, "You're safe this time. Pass it to the next person.", Toast.LENGTH_SHORT);
-                    toastTwo.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
-                    toastTwo.show();
+
+                    Toast toastOne = Toast.makeText(MainActivity.this, "You're safe this time. Pass it to the next person.", Toast.LENGTH_SHORT);
+                    toastOne.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
+                    toastOne.show();
                     //determine what the current position of the animated object is so that I can incorporate another if statement
                     //which will determine which imageview is at the top and if there is a need to change the drawable from full to empty
 
-                } else if (isChamberLoaded) {
+                } else {
+
+                    Toast toastTwo = Toast.makeText(MainActivity.this, "You've been shot so you have to ytake a shot.", Toast.LENGTH_SHORT);
+                    toastTwo.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
+                    toastTwo.show();
+
                     switch (temp) {
 
-                        case 1: temp = 360;
-                                if (imageViewChamber1.getBackground() == res.getDrawable(R.drawable.chamber_filled)) {
-                                    imageViewChamber1.setImageResource(R.drawable.chamber_empty);
-                                } else {
-                                    Toast toastTwo = Toast.makeText(MainActivity.this, "You're safe this time. Pass it to the next person.", Toast.LENGTH_SHORT);
-                                    toastTwo.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
-                                    toastTwo.show();
-                                } break;
+                        case 360:
+//                                if (imageViewChamber1.getBackground() == res.getDrawable(R.drawable.chamber_filled)) {
+//                                    imageViewChamber1.setImageResource(R.drawable.chamber_empty);
+//                                } else {
+//                                    Toast toastTwo = Toast.makeText(MainActivity.this, "You're safe this time. Pass it to the next person.", Toast.LENGTH_SHORT);
+//                                    toastTwo.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
+//                                    toastTwo.show();
+//                                }
+                            imageViewChamber1.setBackgroundResource(R.drawable.chamber_empty);
+                            break;
 
-                        case 2: temp = 300;
-                                if (imageViewChamber6.getBackground() == res.getDrawable(R.drawable.chamber_filled)) {
-                                    imageViewChamber6.setImageResource(R.drawable.chamber_empty);
-                                } else {
-                                    Toast toastTwo = Toast.makeText(MainActivity.this, "You're safe this time. Pass it to the next person.", Toast.LENGTH_SHORT);
-                                    toastTwo.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
-                                    toastTwo.show();
-                                } break;
+                        case 300:
+//                                if (imageViewChamber6.getBackground() == res.getDrawable(R.drawable.chamber_filled)) {
+//                                    imageViewChamber6.setImageResource(R.drawable.chamber_empty);
+//                                } else {
+//                                    Toast toastTwo = Toast.makeText(MainActivity.this, "You're safe this time. Pass it to the next person.", Toast.LENGTH_SHORT);
+//                                    toastTwo.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
+//                                    toastTwo.show();
+//                                }
+                            imageViewChamber6.setBackgroundResource(R.drawable.chamber_empty);
+                            break;
 
-                        case 3: temp = 240;
-                                if (imageViewChamber5.getBackground() == res.getDrawable(R.drawable.chamber_filled)) {
-                                    imageViewChamber5.setImageResource(R.drawable.chamber_empty);
-                                } else {
-                                    Toast toastTwo = Toast.makeText(MainActivity.this, "You're safe this time. Pass it to the next person.", Toast.LENGTH_SHORT);
-                                    toastTwo.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
-                                    toastTwo.show();
-                                } break;
+                        case 240:
+//                                if (imageViewChamber5.getBackground() == res.getDrawable(R.drawable.chamber_filled)) {
+//                                    imageViewChamber5.setImageResource(R.drawable.chamber_empty);
+//                                } else {
+//                                    Toast toastTwo = Toast.makeText(MainActivity.this, "You're safe this time. Pass it to the next person.", Toast.LENGTH_SHORT);
+//                                    toastTwo.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
+//                                    toastTwo.show();
+//                                }
+                            imageViewChamber5.setBackgroundResource(R.drawable.chamber_empty);
+                            break;
 
-                        case 4: temp = 180;
-                                if (imageViewChamber4.getBackground() == res.getDrawable(R.drawable.chamber_filled)) {
-                                    imageViewChamber4.setImageResource(R.drawable.chamber_empty);
-                                } else {
-                                    Toast toastTwo = Toast.makeText(MainActivity.this, "You're safe this time. Pass it to the next person.", Toast.LENGTH_SHORT);
-                                    toastTwo.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
-                                    toastTwo.show();
-                                } break;
+                        case 180:
+//                                if (imageViewChamber4.getBackground() == res.getDrawable(R.drawable.chamber_filled)) {
+//                                    imageViewChamber4.setImageResource(R.drawable.chamber_empty);
+//                                } else {
+//                                    Toast toastTwo = Toast.makeText(MainActivity.this, "You're safe this time. Pass it to the next person.", Toast.LENGTH_SHORT);
+//                                    toastTwo.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
+//                                    toastTwo.show();
+//                                }
+                            imageViewChamber4.setBackgroundResource(R.drawable.chamber_empty);
+                            break;
 
-                        case 5: temp = 120;
-                                if (imageViewChamber3.getBackground() == res.getDrawable(R.drawable.chamber_filled)) {
-                                    imageViewChamber3.setImageResource(R.drawable.chamber_empty);
-                                } else {
-                                    Toast toastTwo = Toast.makeText(MainActivity.this, "You're safe this time. Pass it to the next person.", Toast.LENGTH_SHORT);
-                                    toastTwo.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
-                                    toastTwo.show();
-                                } break;
+                        case 120:
+//                                if (imageViewChamber3.getBackground() == res.getDrawable(R.drawable.chamber_filled)) {
+//                                    imageViewChamber3.setImageResource(R.drawable.chamber_empty);
+//                                } else {
+//                                    Toast toastTwo = Toast.makeText(MainActivity.this, "You're safe this time. Pass it to the next person.", Toast.LENGTH_SHORT);
+//                                    toastTwo.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
+//                                    toastTwo.show();
+//                                }
+                            imageViewChamber3.setBackgroundResource(R.drawable.chamber_empty);
+                            break;
 
-                        case 6: temp = 60;
-                                if (imageViewChamber2.getBackground() == res.getDrawable(R.drawable.chamber_filled)) {
-                                    imageViewChamber2.setImageResource(R.drawable.chamber_empty);
-                                } else {
-                                    Toast toastTwo = Toast.makeText(MainActivity.this, "You're safe this time. Pass it to the next person.", Toast.LENGTH_SHORT);
-                                    toastTwo.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
-                                    toastTwo.show();
-                                } break;
+                        case 60:
+//                                if (imageViewChamber2.getBackground() == res.getDrawable(R.drawable.chamber_filled)) {
+//                                    imageViewChamber2.setImageResource(R.drawable.chamber_empty);
+//                                } else {
+//                                    Toast toastTwo = Toast.makeText(MainActivity.this, "You're safe this time. Pass it to the next person.", Toast.LENGTH_SHORT);
+//                                    toastTwo.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
+//                                    toastTwo.show();
+//                                }
+                            imageViewChamber2.setBackgroundResource(R.drawable.chamber_empty);
+                            break;
 
-                        case 7: temp = 0;
-                                if (imageViewChamber1.getBackground() == res.getDrawable(R.drawable.chamber_filled)) {
-                                    imageViewChamber1.setImageResource(R.drawable.chamber_empty);
-                                } else {
-                                    Toast toastTwo = Toast.makeText(MainActivity.this, "You're safe this time. Pass it to the next person.", Toast.LENGTH_SHORT);
-                                    toastTwo.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
-                                    toastTwo.show();
-                                } break;
+                        default:
 
-                        default: break;
                     }
 
                 }
@@ -255,7 +265,7 @@ public class MainActivity extends AppCompatActivity {
         if (intForLoading >= 0 && intForLoading <= 25) {
             isChamberLoaded = true;
         } else if (intForLoading >= 26 && intForLoading <= 100) {
-            isChamberLoaded = false;
+            isChamberLoaded = true;
         } else {
             randomIntForLoading();
         }
