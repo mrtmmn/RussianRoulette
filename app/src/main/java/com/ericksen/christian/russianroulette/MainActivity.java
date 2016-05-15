@@ -32,9 +32,10 @@ public class MainActivity extends AppCompatActivity {
 
     RelativeLayout relativeLayoutCylinder;
 
-    boolean isChamberLoaded;
+    boolean isChamberLoaded = false;
 
     int ranIntToDetermineRotation;
+    int temp = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,10 +63,17 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("jiggery-pokery-onclick", "ranIntToDetermineRotation: " + ranIntToDetermineRotation);
 
                 // Spin the button around in a full circle
-                ObjectAnimator rotateAnimation =
-                        ObjectAnimator.ofFloat(relativeLayoutCylinder, View.ROTATION, ranIntToDetermineRotation);
-                rotateAnimation.setRepeatCount(1);
-                rotateAnimation.setRepeatMode(ValueAnimator.REVERSE);
+
+                ObjectAnimator rotateBarrel =
+                        ObjectAnimator.ofFloat(relativeLayoutCylinder, View.ROTATION, temp, ranIntToDetermineRotation);
+                rotateBarrel.setupEndValues();
+
+                Log.d("temp_variable", "onClick: " + temp);
+
+                temp = ranIntToDetermineRotation;
+                //keep track of the relativelayout's positioning
+
+                Log.d("temp_variable_value-grab", "onClick: " + temp);
 
                 //add animation that takes ranIntToDetermineRotation as a value for transformation
             }
