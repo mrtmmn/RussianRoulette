@@ -2,6 +2,7 @@ package com.ericksen.christian.russianroulette;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
@@ -56,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 randomIntForRotation();
+                Log.d("jiggery-pokery-onclick", "ranIntToDetermineRotation: " + ranIntToDetermineRotation);
 
                 //add animation that takes ranIntToDetermineRotation as a value for transformation
             }
@@ -66,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 randomIntForLoading();
+                Log.d("isChamberLoaded-onclick", "randomIntForLoading: " + isChamberLoaded);
 
                 if (isChamberLoaded) {
                     Toast.makeText(MainActivity.this, "You have been shot. So now you must take a shot.", Toast.LENGTH_SHORT).show();
@@ -88,6 +91,8 @@ public class MainActivity extends AppCompatActivity {
 
         ranIntToDetermineRotation = (intForRotation * 60);
         //ranIntToDetermineRotation will be either 60, 120, 180, 240, 300, or 360
+        Log.d("jiggery-pokery", "ranIntToDetermineRotation: " + ranIntToDetermineRotation);
+
         return ranIntToDetermineRotation;
 
     }
@@ -102,6 +107,8 @@ public class MainActivity extends AppCompatActivity {
         } else {
             isChamberLoaded = false;
         }
+
+        Log.d("isChamberLoaded", "randomIntForLoading: " + isChamberLoaded);
 
         return isChamberLoaded;
 
