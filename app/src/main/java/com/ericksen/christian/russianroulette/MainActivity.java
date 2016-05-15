@@ -1,5 +1,7 @@
 package com.ericksen.christian.russianroulette;
 
+import android.animation.Animator;
+import android.animation.AnimatorInflater;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.os.Bundle;
@@ -15,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import java.util.Arrays;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
@@ -54,8 +57,9 @@ public class MainActivity extends AppCompatActivity {
 
         if (imageViewCenter != null) {
             imageViewCenter.getLocationOnScreen(imageViewCenterCoordinates);
-            Log.d("imageViewCenterCoord", "onCreate: " + imageViewCenterCoordinates.toString());
+            Log.d("imageViewCenterCoord", "onCreate: " + Arrays.toString(imageViewCenterCoordinates));
             //should have a (1/2x, 1/2y) values in comparison to the relative layout
+            //window vs. screen => I think screen would be more constant and somehoe related to the pixel dimensions
         }
 
         buttonForShooting = (Button) findViewById(R.id.shoot);
@@ -67,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
             //imageViewCenter should have the following coordinates (.5x, .5y) if relativeLayoutCylinder is (x, y)
             //so whichever imageViewChamber is on top after the animation stops will be (~.7x, .5y) ->
             //so I just have to look for whichever imageview has the exact same y value but a greater x value
-            Log.d("relativeLayoutCoord", "onCreate: " + relativeLayoutCoordinates.toString());
+            Log.d("relativeLayoutCoord", "onCreate: " + Arrays.toString(relativeLayoutCoordinates));
         }
 
         buttonForSpinning.setOnClickListener(new View.OnClickListener() {
@@ -77,11 +81,12 @@ public class MainActivity extends AppCompatActivity {
                 randomIntForRotation();
                 Log.d("jiggery-pokery-onclick", "ranIntToDetermineRotation: " + ranIntToDetermineRotation);
 
-                // Spin the button around in a full circle
-
                 ObjectAnimator rotateBarrel =
                         ObjectAnimator.ofFloat(relativeLayoutCylinder, View.ROTATION, temp, ranIntToDetermineRotation);
-                rotateBarrel.setupEndValues();
+                rotateBarrel.setRepeatCount(1);
+                rotateBarrel.setRepeatMode(ValueAnimator.REVERSE);
+                rotateBarrel.start();
+                // Spin the button around in a full circle
 
                 Log.d("temp_variable", "onClick: " + temp);
 
@@ -89,8 +94,8 @@ public class MainActivity extends AppCompatActivity {
                 //keep track of the relativelayout's positioning
 
                 Log.d("temp_variable_switch", "onClick: " + temp);
-
                 //add animation that takes ranIntToDetermineRotation as a value for transformation
+
             }
         });
 
@@ -131,12 +136,16 @@ public class MainActivity extends AppCompatActivity {
     public boolean randomIntForLoading () {
 
         Random randomRotation = new Random();
-        int intForLoading = randomRotation.nextInt(1 - 0);
+        int intForLoading = randomRotation.nextInt(100);
 
-        if (intForLoading == 1) {
+        Log.d("intForLoading", "randomIntForLoading: " + intForLoading);
+
+        if (intForLoading >= 0 && intForLoading <= 25) {
             isChamberLoaded = true;
-        } else {
+        } else if (intForLoading >= 26 && intForLoading <= 100) {
             isChamberLoaded = false;
+        } else {
+            randomIntForLoading();
         }
 
         Log.d("isChamberLoaded", "randomIntForLoading: " + isChamberLoaded);
