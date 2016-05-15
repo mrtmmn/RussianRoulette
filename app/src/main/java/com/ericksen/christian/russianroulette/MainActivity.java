@@ -1,18 +1,11 @@
 package com.ericksen.christian.russianroulette;
 
-import android.animation.Animator;
-import android.animation.AnimatorInflater;
 import android.animation.ObjectAnimator;
-import android.animation.PropertyValuesHolder;
-import android.animation.ValueAnimator;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.DecelerateInterpolator;
-import android.view.animation.LinearInterpolator;
-import android.view.animation.RotateAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -40,13 +33,19 @@ public class MainActivity extends AppCompatActivity {
 
     int ranIntToDetermineRotation;
     int temp = 0;
-    int [] imageViewCenterCoordinates = new int [2];
-    int [] relativeLayoutCoordinates = new int [2];
+
+    int [] iVCCOnScreen = new int [2];
+    int [] iVCCInWindow = new int [2];
+
+    int [] rLCOnScreen = new int [2];
+    int [] rLCInWindow = new int [2];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        relativeLayoutCylinder = (RelativeLayout) findViewById(R.id.relative_layout_cylinder);
 
         imageViewChamber1 = (ImageView) findViewById(R.id.chamber1);
         imageViewChamber2 = (ImageView) findViewById(R.id.chamber2);
@@ -56,25 +55,7 @@ public class MainActivity extends AppCompatActivity {
         imageViewChamber6 = (ImageView) findViewById(R.id.chamber6);
         imageViewCenter = (ImageView) findViewById(R.id.center);
 
-        if (imageViewCenter != null) {
-            imageViewCenter.getLocationOnScreen(imageViewCenterCoordinates);
-            Log.d("imageViewCenterCoord", "onCreate: " + Arrays.toString(imageViewCenterCoordinates));
-            //should have a (1/2x, 1/2y) values in comparison to the relative layout
-            //window vs. screen => I think screen would be more constant and somehow related to the pixel dimensions
-        }
-
-        buttonForShooting = (Button) findViewById(R.id.shoot);
         buttonForSpinning = (Button) findViewById(R.id.spin);
-
-        relativeLayoutCylinder = (RelativeLayout) findViewById(R.id.relative_layout_cylinder);
-        if (relativeLayoutCylinder != null) {
-            relativeLayoutCylinder.getLocationOnScreen(relativeLayoutCoordinates);
-            //imageViewCenter should have the following coordinates (.5x, .5y) if relativeLayoutCylinder is (x, y)
-            //so whichever imageViewChamber is on top after the animation stops will be (~.7x, .5y) ->
-            //so I just have to look for whichever imageview has the exact same y value but a greater x value
-            Log.d("relativeLayoutCoord", "onCreate: " + Arrays.toString(relativeLayoutCoordinates));
-        }
-
         buttonForSpinning.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -82,14 +63,12 @@ public class MainActivity extends AppCompatActivity {
                 randomIntForRotation();
                 Log.d("jiggery-pokery-onclick", "ranIntToDetermineRotation: " + ranIntToDetermineRotation);
 
-                PropertyValuesHolder rotationX = PropertyValuesHolder.ofFloat(View.ROTATION, temp, ranIntToDetermineRotation);
-                PropertyValuesHolder rotationY = PropertyValuesHolder.ofFloat(View.ROTATION, temp, ranIntToDetermineRotation);
-
                 ObjectAnimator rotateBarrel =
-                        ObjectAnimator.ofPropertyValuesHolder(relativeLayoutCylinder, rotationX, rotationY);
-                rotateBarrel.setDuration(5000);
+                        ObjectAnimator.ofFloat(relativeLayoutCylinder, View.ROTATION, ranIntToDetermineRotation);
                 rotateBarrel.start();
                 // Spin the button around in a full circle
+
+                Log.d("ranInt_rotation", "onClick: " + ranIntToDetermineRotation);
 
                 //Now I need to add an onAnimationListener so to be able to add a crescendo in the beginning
                 //and a decrescendo at the end in terms of speed so to mimick the force of gravity
@@ -102,9 +81,43 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("temp_variable_switch", "onClick: " + temp);
                 //add animation that takes ranIntToDetermineRotation as a value for transformation
 
+                if (imageViewCenter != null) {
+
+                    imageViewCenter.getLocationOnScreen(iVCCOnScreen);
+                    Log.d("iVCCOnScreen", "onCreate: " + Arrays.toString(iVCCOnScreen));
+                    //should have a (1/2x, 1/2y) values in comparison to the relative layout
+                    //window vs. screen => I think screen would be more constant and somehow related to the pixel dimensions
+
+                    imageViewCenter.getLocationInWindow(iVCCInWindow);
+                    Log.d("iVCCInWindow", "onCreate: " + Arrays.toString(iVCCInWindow));
+
+                }
+
+                if (relativeLayoutCylinder != null) {
+                    relativeLayoutCylinder.getLocationOnScreen(rLCOnScreen);
+                    //imageViewCenter should have the following coordinates (.5x, .5y) if relativeLayoutCylinder is (x, y)
+                    //so whichever imageViewChamber is on top after the animation stops will be (~.7x, .5y) ->
+                    //so I just have to look for whichever imageview has the exact same y value but a greater x value
+                    Log.d("rLCOnScreen", "onCreate: " + Arrays.toString(rLCOnScreen));
+
+                    relativeLayoutCylinder.getLocationInWindow(rLCInWindow);
+                    Log.d("rLCInWindow", "onCreate: " + Arrays.toString(rLCInWindow));
+
+                    Rect rect = relativeLayoutCylinder.getClipBounds();
+                    int rectX = rect.centerX();
+                    int rectY = rect.centerY();
+                    String rectIntersect = rect.toString();
+
+                    Log.d("rectX", "CenterX: " + rectX);
+                    Log.d("rectY", "CenterY: " + rectY);
+                    Log.d("rectIntersect", "toString: " + rectIntersect);
+
+                }
+
             }
         });
 
+        buttonForShooting = (Button) findViewById(R.id.shoot);
         buttonForShooting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -206,6 +219,18 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+//                PropertyValuesHolder rotationX = PropertyValuesHolder.ofFloat(View.ROTATION, temp, ranIntToDetermineRotation);
+//                PropertyValuesHolder rotationY = PropertyValuesHolder.ofFloat(View.ROTATION, temp, ranIntToDetermineRotation);
+//
+//                ObjectAnimator rotateBarrel =
+//                        ObjectAnimator.ofPropertyValuesHolder(relativeLayoutCylinder, rotationX, rotationY);
+//                rotateBarrel.setDuration(1000);
+//                rotateBarrel.start();
+
+
+//                ObjectAnimator rotateBarrel =
+//                        ObjectAnimator.ofFloat(relativeLayoutCylinder, View.ROTATION, Math.abs(temp), Math.abs(ranIntToDetermineRotation));
+//                rotateBarrel.start();
 
 
 
