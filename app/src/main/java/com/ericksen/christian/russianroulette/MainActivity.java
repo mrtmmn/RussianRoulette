@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
                 ObjectAnimator rotateBarrel =
                         ObjectAnimator.ofFloat(relativeLayoutCylinder, View.ROTATION, ranIntToDetermineRotation);
                 rotateBarrel.start();
-                // Spin the recyclerview 
+                // Spin the recyclerview
 
                 Log.d("ranInt_rotation", "ObjectAnimator: " + ranIntToDetermineRotation);
 
@@ -250,6 +250,8 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d("intForLoading", "randomIntForLoading: " + intForLoading);
 
+        //Need to fix the probability that determines whether a fire will be shot or not
+        //so that it's more fun to actually play
         if (intForLoading >= 0 && intForLoading <= 25) {
             isChamberLoaded = true;
         } else if (intForLoading >= 26 && intForLoading <= 100) {
