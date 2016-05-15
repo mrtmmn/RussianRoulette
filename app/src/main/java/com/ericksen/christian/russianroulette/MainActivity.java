@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
     ImageView imageViewChamber4;
     ImageView imageViewChamber5;
     ImageView imageViewChamber6;
-//    ImageView imageViewCenter;
+    ImageView imageViewCenter;
 
     Button buttonForShooting;
     Button buttonForSpinning;
@@ -36,6 +36,8 @@ public class MainActivity extends AppCompatActivity {
 
     int ranIntToDetermineRotation;
     int temp = 0;
+    int [] imageViewCenterCoordinates = new int [2];
+    int [] relativeLayoutCoordinates = new int [2];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,12 +50,25 @@ public class MainActivity extends AppCompatActivity {
         imageViewChamber4 = (ImageView) findViewById(R.id.chamber4);
         imageViewChamber5 = (ImageView) findViewById(R.id.chamber5);
         imageViewChamber6 = (ImageView) findViewById(R.id.chamber6);
-//        imageViewCenter = (ImageView) findViewById(R.id.center);
+        imageViewCenter = (ImageView) findViewById(R.id.center);
+
+        if (imageViewCenter != null) {
+            imageViewCenter.getLocationOnScreen(imageViewCenterCoordinates);
+            Log.d("imageViewCenterCoord", "onCreate: " + imageViewCenterCoordinates.toString());
+            //should have a (1/2x, 1/2y) values in comparison to the relative layout
+        }
 
         buttonForShooting = (Button) findViewById(R.id.shoot);
         buttonForSpinning = (Button) findViewById(R.id.spin);
 
         relativeLayoutCylinder = (RelativeLayout) findViewById(R.id.relative_layout_cylinder);
+        if (relativeLayoutCylinder != null) {
+            relativeLayoutCylinder.getLocationOnScreen(relativeLayoutCoordinates);
+            //imageViewCenter should have the following coordinates (.5x, .5y) if relativeLayoutCylinder is (x, y)
+            //so whichever imageViewChamber is on top after the animation stops will be (~.7x, .5y) ->
+            //so I just have to look for whichever imageview has the exact same y value but a greater x value
+            Log.d("relativeLayoutCoord", "onCreate: " + relativeLayoutCoordinates.toString());
+        }
 
         buttonForSpinning.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
                 temp = ranIntToDetermineRotation;
                 //keep track of the relativelayout's positioning
 
-                Log.d("temp_variable_value-grab", "onClick: " + temp);
+                Log.d("temp_variable_switch", "onClick: " + temp);
 
                 //add animation that takes ranIntToDetermineRotation as a value for transformation
             }
