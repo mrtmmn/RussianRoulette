@@ -1,5 +1,7 @@
 package com.ericksen.christian.russianroulette;
 
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -58,6 +60,12 @@ public class MainActivity extends AppCompatActivity {
 
                 randomIntForRotation();
                 Log.d("jiggery-pokery-onclick", "ranIntToDetermineRotation: " + ranIntToDetermineRotation);
+
+                // Spin the button around in a full circle
+                ObjectAnimator rotateAnimation =
+                        ObjectAnimator.ofFloat(relativeLayoutCylinder, View.ROTATION, ranIntToDetermineRotation);
+                rotateAnimation.setRepeatCount(1);
+                rotateAnimation.setRepeatMode(ValueAnimator.REVERSE);
 
                 //add animation that takes ranIntToDetermineRotation as a value for transformation
             }
