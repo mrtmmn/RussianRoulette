@@ -1,10 +1,13 @@
 package com.ericksen.christian.russianroulette;
 
 import android.animation.ObjectAnimator;
+import android.content.res.Resources;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -45,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        relativeLayoutCylinder = (RelativeLayout) findViewById(R.id.relative_layout_cylinder);
+
         imageViewChamber1 = (ImageView) findViewById(R.id.chamber1);
         imageViewChamber2 = (ImageView) findViewById(R.id.chamber2);
         imageViewChamber3 = (ImageView) findViewById(R.id.chamber3);
@@ -53,52 +58,30 @@ public class MainActivity extends AppCompatActivity {
         imageViewChamber6 = (ImageView) findViewById(R.id.chamber6);
         imageViewCenter = (ImageView) findViewById(R.id.center);
 
-        relativeLayoutCylinder = (RelativeLayout) findViewById(R.id.relative_layout_cylinder);
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR2) {
-
-            if (relativeLayoutCylinder != null) {
-
-                int left = relativeLayoutCylinder.getLeft();
-                int right = relativeLayoutCylinder.getRight();
-                int bottom = relativeLayoutCylinder.getBottom();
-                int top = relativeLayoutCylinder.getTop();
-
-                try {
-                    Log.d("left", "left: " + left);
-                    Log.d("right", "right: " + right);
-                    Log.d("bottom", "bottom: " + bottom);
-                    Log.d("top", "top: " + top);
-                } catch (NullPointerException e) {
-                    e.printStackTrace();
-                }
-
-            }
-        }
-
         buttonForSpinning = (Button) findViewById(R.id.spin);
         buttonForSpinning.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 randomIntForRotation();
-                Log.d("jiggery-pokery-onclick", "ranIntToDetermineRotation: " + ranIntToDetermineRotation);
+                Log.d("rotation-onclick", "ranIntToDetermineRotation: " + ranIntToDetermineRotation);
 
                 ObjectAnimator rotateBarrel =
                         ObjectAnimator.ofFloat(relativeLayoutCylinder, View.ROTATION, ranIntToDetermineRotation);
                 rotateBarrel.start();
                 // Spin the button around in a full circle
 
-                Log.d("ranInt_rotation", "onClick: " + ranIntToDetermineRotation);
+                Log.d("ranInt_rotation", "ObjectAnimator: " + ranIntToDetermineRotation);
 
                 //Now I need to add an onAnimationListener so to be able to add a crescendo in the beginning
                 //and a decrescendo at the end in terms of speed so to mimick the force of gravity
 
-                Log.d("temp_variable", "onClick: " + temp);
+                Log.d("temp_variable", "ObjectAnimator: " + temp);
 
                 temp = ranIntToDetermineRotation;
                 //keep track of the relativelayout's positioning
 
-                Log.d("temp_variable_switch", "onClick: " + temp);
+                Log.d("temp_variable_switch", "ObjectAnimator: " + temp);
                 //add animation that takes ranIntToDetermineRotation as a value for transformation
 
                 if (imageViewCenter != null) {
@@ -129,6 +112,26 @@ public class MainActivity extends AppCompatActivity {
 
                 }
 
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR2) {
+
+                    if (relativeLayoutCylinder != null) {
+
+                        int left = relativeLayoutCylinder.getBackground().getBounds().left;
+                        int right = relativeLayoutCylinder.getBackground().getBounds().right;
+                        int bottom = relativeLayoutCylinder.getBackground().getBounds().bottom;
+                        int top = relativeLayoutCylinder.getBackground().getBounds().top;
+
+                        try {
+                            Log.d("left", "left: " + left);
+                            Log.d("right", "right: " + right);
+                            Log.d("bottom", "bottom: " + bottom);
+                            Log.d("top", "top: " + top);
+                        } catch (NullPointerException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                }
             }
         });
 
@@ -140,12 +143,45 @@ public class MainActivity extends AppCompatActivity {
                 randomIntForLoading();
                 Log.d("isChamberLoaded-onclick", "randomIntForLoading: " + isChamberLoaded);
 
+                Resources res = getResources();
+
                 if (isChamberLoaded) {
-                    Toast.makeText(MainActivity.this, "You have been shot. So now you must take a shot.", Toast.LENGTH_SHORT).show();
+                    Toast toast = Toast.makeText(MainActivity.this, "You have been shot. So now you must take a shot.", Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
+                    toast.show();
                     //determine what the current position of the animated object is so that I can incorporate another if statement
                     //which will determine which imageview is at the top and if there is a need to change the drawable from full to empty
+
+                    if (temp / 360 == 1 || temp - 0 == 0) {
+                        if (imageViewChamber1.getBackground() == res.getDrawable(R.drawable.chamber_filled)) {
+                            imageViewChamber1.setImageResource(R.drawable.chamber_empty);
+                        } 
+                    } else if (temp / 300 == 1) {
+                        if (imageViewChamber6.getBackground() == res.getDrawable(R.drawable.chamber_filled)) {
+                            imageViewChamber6.setImageResource(R.drawable.chamber_empty);
+                        }
+                    } else if (temp / 240 == 1) {
+                        if (imageViewChamber5.getBackground() == res.getDrawable(R.drawable.chamber_filled)) {
+                            imageViewChamber5.setImageResource(R.drawable.chamber_empty);
+                        }
+                    } else if (temp / 180 == 1) {
+                        if (imageViewChamber4.getBackground() == res.getDrawable(R.drawable.chamber_filled)) {
+                            imageViewChamber4.setImageResource(R.drawable.chamber_empty);
+                        }
+                    } else if (temp / 120 == 1) {
+                        if (imageViewChamber3.getBackground() == res.getDrawable(R.drawable.chamber_filled)) {
+                            imageViewChamber3.setImageResource(R.drawable.chamber_empty);
+                        }
+                    } else if (temp / 60 == 1) {
+                        if (imageViewChamber2.getBackground() == res.getDrawable(R.drawable.chamber_filled)) {
+                            imageViewChamber2.setImageResource(R.drawable.chamber_empty);
+                        }
+                    }
+
                 } else {
-                    Toast.makeText(MainActivity.this, "You're safe this time. Pass it to the next person.", Toast.LENGTH_SHORT).show();
+                    Toast toastTwo = Toast.makeText(MainActivity.this, "You're safe this time. Pass it to the next person.", Toast.LENGTH_SHORT);
+                    toastTwo.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
+                    toastTwo.show();
                 }
             }
         });
