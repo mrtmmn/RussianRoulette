@@ -1,12 +1,11 @@
 package com.ericksen.christian.russianroulette;
 
+import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.DecelerateInterpolator;
-import android.view.animation.LinearInterpolator;
-import android.view.animation.RotateAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -14,310 +13,264 @@ import android.widget.Toast;
 
 import java.util.Random;
 
-
-//@SuppressWarnings("ResultOfMethodCallIgnored")
 public class MainActivity extends AppCompatActivity {
 
-    ImageView chamber1;
-    ImageView chamber2;
-    ImageView chamber3;
-    ImageView chamber4;
-    ImageView chamber5;
-    ImageView chamber6;
-    ImageView center;
-    Button shoot;
-    Button spin;
-    float n;
-    //ImageView arrow;
+    ImageView imageViewChamber1;
+    ImageView imageViewChamber2;
+    ImageView imageViewChamber3;
+    ImageView imageViewChamber4;
+    ImageView imageViewChamber5;
+    ImageView imageViewChamber6;
+    ImageView imageViewCenter;
 
+    Button buttonForShooting;
+    Button buttonForSpinning;
 
-    boolean chamber1Loaded = false;
-    boolean chamber2Full;
-    boolean chamber2Loaded = false;
-    boolean chamber3Full;
-    boolean chamber3Loaded = false;
-    boolean chamber4Full;
-    boolean chamber4Loaded = false;
-    boolean chamber5Full;
-    boolean chamber5Loaded = false;
-    boolean chamber6Full;
-    boolean chamber6Loaded = false;
-    boolean isLoaded =false;
-    boolean isFull;
-    String Loaded;
+    RelativeLayout relativeLayoutCylinder;
+    //contains all of the imageViewChambers
 
-    static Random rand = new Random();
+    boolean isChamberLoaded;
+    //algorithm - method: generateIntForLoading() - determined whether the chamber is loaded or not as opposed to filled with a blank
+    //this also generated a 25% (loaded) v 75% chance (blank) but the next step is to elaborate
+    //and provide users the choice regarding the difficulty of the odds they face
 
-    public class fire {
+    int intForRotation;
+    int numberOfRotations = 0;
+    int ranIntToDetermineRotation;
+    int temp = 0;
+    int count = 0;
+    //attempt at determining the position of the ImageViews via calculating the relationship bw the ImageViews'
+    //displacement through rotation (in degrees) and the ImageView positioned at the top after every rotation
+    //but I found a better way through the getLocationOnScreen method which gave me the estimated y-axis of each
+    //ImageView for comparison
 
-        public void main(String[] args) {
+    int[] iVCCOnScreen = new int[2];
+    int[] iVCCInWindow = new int[2];
+    //determine centerX and centerY for relative_layout_cylinder so not to have to depend on animate the
+    //entire relative_layout as opposed to just rotating all of the imageviews along a pivot
 
-
-
-//            Random  rand = new Random();
-            int randomBarrel = rand.nextInt(7 - 1) + 1;
-
-
-            if (randomBarrel == 1) {chamber1Loaded = true;}
-
-            //chamber2Loaded = false; chamber3Loaded = false; chamber4Loaded = false; chamber5Loaded = false; chamber6Loaded = false;
-
-            if (randomBarrel == 2) {chamber2Loaded = true;}
-
-            if (randomBarrel == 3) {chamber3Loaded = true;}
-
-            if (randomBarrel == 4) {chamber4Loaded = true;}
-
-            if (randomBarrel == 5) {chamber5Loaded = true;}
-
-            if (randomBarrel == 6) {chamber6Loaded = true;}
-        }
-
-
-
-
-    }
-
+    int[] rLCOnScreen = new int[2];
+    int[] rLCInWindow = new int[2];
+    //exact coordinates for ImageViews so to incorporate more graphics in addition to rotation
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        chamber1 = (ImageView) findViewById(R.id.chamber1);
-        chamber2 = (ImageView) findViewById(R.id.chamber2);
-        chamber3 = (ImageView) findViewById(R.id.chamber3);
-        chamber4 = (ImageView) findViewById(R.id.chamber4);
-        chamber5 = (ImageView) findViewById(R.id.chamber5);
-        chamber6 = (ImageView) findViewById(R.id.chamber6);
-        center = (ImageView) findViewById(R.id.center);
-        shoot = (Button) findViewById(R.id.shoot);
-        spin = (Button) findViewById(R.id.spin);
-        //arrow = (ImageView) findViewById(R.id.arrow);
+        relativeLayoutCylinder = (RelativeLayout) findViewById(R.id.relative_layout_cylinder);
 
-        if (chamber1Loaded) {
-            chamber1.equals(isLoaded);
+        imageViewChamber1 = (ImageView) findViewById(R.id.chamber1);
+        imageViewChamber2 = (ImageView) findViewById(R.id.chamber2);
+        imageViewChamber3 = (ImageView) findViewById(R.id.chamber3);
+        imageViewChamber4 = (ImageView) findViewById(R.id.chamber4);
+        imageViewChamber5 = (ImageView) findViewById(R.id.chamber5);
+        imageViewChamber6 = (ImageView) findViewById(R.id.chamber6);
+        imageViewCenter = (ImageView) findViewById(R.id.center);
 
-        } else if (chamber2Loaded) {
-            chamber2.equals(isLoaded);
+        buttonForSpinning = (Button) findViewById(R.id.spin);
+        //Declare this onClickListener so that I can use its variable name to ensure that
+        //users can't shoot without spinning the barrel
+        buttonForSpinning.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                numberOfRotations++;
 
-        } else if (chamber3Loaded) {
-            chamber3.equals(isLoaded);
+                generateIntForRotation();
+                Log.d("rotation-onclick", "ranIntToDetermineRotation: " + ranIntToDetermineRotation);
 
-        } else if (chamber4Loaded) {
-            chamber4.equals(isLoaded);
+                ObjectAnimator rotateBarrel =
+                        ObjectAnimator.ofFloat(relativeLayoutCylinder, View.ROTATION, ranIntToDetermineRotation);
+                rotateBarrel.start();
+                // Spin the recyclerview
 
-        } else if (chamber5Loaded) {
-            chamber5.equals(isLoaded);
+                Log.d("ranInt_rotation", "ObjectAnimator: " + ranIntToDetermineRotation);
 
-        } else if (chamber6Loaded) {
-            chamber6.equals(isLoaded);
-        }
+                //Now I need to add an onAnimationListener so to be able to add a crescendo in the beginning
+                //and a decrescendo at the end in terms of speed so to mimick the force of gravity
 
-        randomSpinDegrees();
+                Log.d("pre-dIVP", "ObjectAnimator: " + temp);
+                Log.d("count_variable", "ObjectAnimator: " + count);
+                //add animation that takes ranIntToDetermineRotation as a value for transformation
 
-        final RelativeLayout relativeLayoutCylinder = (RelativeLayout) findViewById(R.id.relative_layout_cylinder);
+                if (imageViewCenter != null) {
 
+                    imageViewCenter.getLocationOnScreen(iVCCOnScreen);
+                    Log.d("iVCCOnScreen-X", "iVCCOnScreen-X: " + iVCCOnScreen[0]);
+                    Log.d("iVCCOnScreen-Y", "iVCCOnScreen-Y: " + iVCCOnScreen[1]);
+                    //should have a (1/2x, 1/2y) values in comparison to the relative layout
+                    //window vs. screen => I think screen would be more constant and somehow related to the pixel dimensions
 
-//        final RotateAnimation rotate1 = new RotateAnimation(0, 360, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-//        //RotateAnimation rotate = new RotateAnimation(0, 360, 90, 90);
-//        rotate1.setDuration(1000);
-//        rotate1.setInterpolator(new LinearInterpolator());
-//
-//       final RotateAnimation rotate2 = new RotateAnimation(0, 360, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-//        rotate2.setDuration(3000);
-//        rotate2.setInterpolator(new DecelerateInterpolator());
+                    imageViewCenter.getLocationInWindow(iVCCInWindow);
+                    Log.d("iVCCInWindow-X", "iVCCInWindow: " + iVCCInWindow[0]);
+                    Log.d("iVCCInWindow-Y", "iVCCInWindow: " + iVCCInWindow[1]);
 
+                }
 
+                if (relativeLayoutCylinder != null) {
+                    relativeLayoutCylinder.getLocationOnScreen(rLCOnScreen);
+                    //imageViewCenter should have the following coordinates (.5x, .5y) if relativeLayoutCylinder is (x, y)
+                    //so whichever imageViewChamber is on top after the animation stops will be (~.7x, .5y) ->
+                    //so I just have to look for whichever imageview has the exact same y value but a greater x value
+                    Log.d("rLCOnScreen-X", "rLCOnScreen-X: " + rLCOnScreen[0]);
+                    Log.d("rLCOnScreen-Y", "rLCOnScreen-Y: " + rLCOnScreen[1]);
 
-        //randomSpinDegrees degreesClass = new randomSpinDegrees();
+                    relativeLayoutCylinder.getLocationInWindow(rLCInWindow);
+                    Log.d("rLCInWindow-X", "rLCInWindow: " + rLCInWindow[0]);
+                    Log.d("rLCInWindow-Y", "rLCInWindow: " + rLCInWindow[1]);
 
+                }
 
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR2) {
 
-        spin.setOnClickListener(new View.OnClickListener() {
+                    if (relativeLayoutCylinder != null) {
+
+                        int left = relativeLayoutCylinder.getBackground().getBounds().left;
+                        int right = relativeLayoutCylinder.getBackground().getBounds().right;
+                        int bottom = relativeLayoutCylinder.getBackground().getBounds().bottom;
+                        int top = relativeLayoutCylinder.getBackground().getBounds().top;
+
+                        try {
+                            Log.d("left", "left: " + left);
+                            Log.d("right", "right: " + right);
+                            Log.d("bottom", "bottom: " + bottom);
+                            Log.d("top", "top: " + top);
+                        } catch (NullPointerException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                }
+            }
+        });
+
+        buttonForShooting = (Button) findViewById(R.id.shoot);
+        buttonForShooting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+                //keep track of the imageviews positioning within the relative_layout_cylinder
 
+                int [] arrayChamber1 = new int [2];
+                int [] arrayChamber2 = new int [2];
+                int [] arrayChamber3 = new int [2];
+                int [] arrayChamber4 = new int [2];
+                int [] arrayChamber5 = new int [2];
+                int [] arrayChamber6 = new int [2];
 
+                imageViewChamber1.getLocationOnScreen(arrayChamber1);
+                imageViewChamber2.getLocationOnScreen(arrayChamber2);
+                imageViewChamber3.getLocationOnScreen(arrayChamber3);
+                imageViewChamber4.getLocationOnScreen(arrayChamber4);
+                imageViewChamber5.getLocationOnScreen(arrayChamber5);
+                imageViewChamber6.getLocationOnScreen(arrayChamber6);
 
-//
-//                    int randomDegrees = (int)(Math.random()*6 + 1);
-//                    String degrees = "";
-//
-//                    float n;
-//
-//
-//                    // Random randomSpin = new Random();
-//                    //int randomDegrees = randomSpin.nextInt(7 - 1) + 1;
-//
-//                    public void main(String[] args) {
-//
-//                        for (int i = 0; i <= 6; i++){
-//
-//                            switch (randomDegrees) {
-//                                case 0:
-//                                    degrees = "420";
-//                                    break;
-//                                case 1:
-//                                    degrees = "480";
-//                                    break;
-//                                case 2:
-//                                    degrees = "540";
-//                                    break;
-//                                case 3:
-//                                    degrees = "600";
-//                                    break;
-//                                case 4:
-//                                    degrees = "660";
-//                                    break;
-//                                case 5:
-//                                    degrees = "720";
-//                                    break;
-//                                default:
-//                                    degrees = "0";
-//                            }
-//                        }
-//                        float n = Float.parseFloat(degrees);
-//                        System.out.print(n);
+                int heightOfChamber1 = arrayChamber1[1];
+                int heightOfChamber2 = arrayChamber2[1];
+                int heightOfChamber3 = arrayChamber3[1];
+                int heightOfChamber4 = arrayChamber4[1];
+                int heightOfChamber5 = arrayChamber5[1];
+                int heightOfChamber6 = arrayChamber6[1];
 
+                generateIntForLoading();
+                Log.d("isChamberLoaded-onclick", "generateIntForLoading: " + isChamberLoaded);
 
-                final RotateAnimation rotate1 = new RotateAnimation(0, n, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-                        //RotateAnimation rotate = new RotateAnimation(0, 360, 90, 90);
-                rotate1.setDuration(1000);
-                rotate1.setInterpolator(new LinearInterpolator());
+                if (!isChamberLoaded) {
 
-                final RotateAnimation rotate2 = new RotateAnimation(0, 420, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-                rotate2.setDuration(3000);
-                rotate2.setInterpolator(new DecelerateInterpolator());
+                    Toast toastOne = Toast.makeText(MainActivity.this, "You're safe this time. Pass it to the next person.", Toast.LENGTH_SHORT);
+                    toastOne.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
+                    toastOne.show();
+                    //determine what the current position of the animated object is so that I can incorporate another if statement
+                    //which will determine which imageview is at the top and if there is a need to change the drawable from full to empty
 
+                } else {
 
-                setAnimationListener(new Animation.AnimationListener() {
-                    @Override
-                    public void onAnimationStart(Animation animation) {
-                        assert relativeLayoutCylinder != null;
-                        relativeLayoutCylinder.startAnimation(rotate1);
-                        relativeLayoutCylinder.startAnimation(rotate2);
-                        relativeLayoutCylinder.setPivotX(relativeLayoutCylinder.getWidth() / 2);
-                        relativeLayoutCylinder.setPivotY(relativeLayoutCylinder.getHeight() / 2);
+                    Toast toastTwo = Toast.makeText(MainActivity.this, "You've been shot so you have to take a shot.", Toast.LENGTH_SHORT);
+                    toastTwo.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
+                    toastTwo.show();
+
+                    Log.d("intForRotation-switch", "switch: " + intForRotation);
+
+                    if (heightOfChamber1 < heightOfChamber2 && heightOfChamber1 < heightOfChamber3 &&
+                            heightOfChamber1 < heightOfChamber4 && heightOfChamber1 < heightOfChamber5
+                            && heightOfChamber1 < heightOfChamber6) {
+
+                        imageViewChamber1.setBackgroundResource(R.drawable.chamber_empty);
+
+                    } else if (heightOfChamber2 < heightOfChamber1 && heightOfChamber2 < heightOfChamber3 &&
+                            heightOfChamber2 < heightOfChamber4 && heightOfChamber2 < heightOfChamber5
+                            && heightOfChamber2 < heightOfChamber6){
+
+                        imageViewChamber2.setBackgroundResource(R.drawable.chamber_empty);
+
+                    } else if (heightOfChamber3 < heightOfChamber2 && heightOfChamber3 < heightOfChamber1 &&
+                            heightOfChamber3 < heightOfChamber4 && heightOfChamber3 < heightOfChamber5
+                            && heightOfChamber3 < heightOfChamber6) {
+
+                        imageViewChamber3.setBackgroundResource(R.drawable.chamber_empty);
+
+                    } else if (heightOfChamber4 < heightOfChamber1 && heightOfChamber4 < heightOfChamber3 &&
+                            heightOfChamber4 < heightOfChamber2 && heightOfChamber4 < heightOfChamber5
+                            && heightOfChamber4 < heightOfChamber6) {
+
+                        imageViewChamber4.setBackgroundResource(R.drawable.chamber_empty);
+
+                    } else if (heightOfChamber5 < heightOfChamber2 && heightOfChamber5 < heightOfChamber3 &&
+                            heightOfChamber5 < heightOfChamber4 && heightOfChamber1 > heightOfChamber5
+                            && heightOfChamber5 < heightOfChamber6) {
+
+                        imageViewChamber5.setBackgroundResource(R.drawable.chamber_empty);
+
+                    } else if (heightOfChamber6 < heightOfChamber2 && heightOfChamber6 < heightOfChamber3 &&
+                            heightOfChamber6 < heightOfChamber4 && heightOfChamber6 < heightOfChamber5
+                            && heightOfChamber6 < heightOfChamber1) {
+
+                        imageViewChamber6.setBackgroundResource(R.drawable.chamber_empty);
 
                     }
-
-                    @Override
-                    public void onAnimationEnd(Animation animation) {
-
-
-
-                    }
-
-                    @Override
-                    public void onAnimationRepeat(Animation rotate) {
-
-                    }
-                });
-
-
-
-//                        assert relativeLayoutCylinder != null;
-//                        relativeLayoutCylinder.startAnimation(rotate1);
-//                        relativeLayoutCylinder.startAnimation(rotate2);
-//                        relativeLayoutCylinder.setPivotX(relativeLayoutCylinder.getWidth() / 2);
-//                        relativeLayoutCylinder.setPivotY(relativeLayoutCylinder.getHeight() / 2);
-//                        relativeLayoutCylinder.setSaveEnabled(true);
-                    }
-
-
-
-                });
-
-
-                //chambe
-//                chamber2.startAnimation(rotate);
-//                chamber3.startAnimation(rotate);
-//                chamber4.startAnimation(rotate);
-//                chamber5.startAnimation(rotate);
-//                chamber6.startAnimation(rotate);
-
-
-
-        shoot.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v){
-                   if (isFull && (isLoaded=true)){
-                       Toast.makeText(MainActivity.this, "BAM! Take A Shot!", Toast.LENGTH_SHORT).show();
-                   }
-                if (isFull && (isLoaded=false)){
-
                 }
 
-                if (isFull=false){
-
-                }
-
-
-                
             }
         });
+
     }
 
-    private void setAnimationListener(Animation.AnimationListener animationListener) {
+    public int generateIntForRotation() {
+
+        Random randomRotation = new Random();
+        intForRotation = randomRotation.nextInt((6 - 1) + 1) + 1;
+        //from 0 to 5 since (5+1) or ((6-1)+1) with an additional + 1 outside of the parentheses
+        // so [0...5] becomes [1...6]
+        Log.d("intForRotation", "intForRotation: " + intForRotation);
+
+        ranIntToDetermineRotation = (intForRotation * 60);
+        //ranIntToDetermineRotation will be either 60, 120, 180, 240, 300, or 360
+        Log.d("jiggery-pokery", "ranIntToDetermineRotation: " + ranIntToDetermineRotation);
+
+        return ranIntToDetermineRotation;
+
     }
 
-    public float randomSpinDegrees(){
+    public boolean generateIntForLoading() {
 
-        int mDegree = rand.nextInt(7-1) + 1;
+        Random randomRotation = new Random();
+        int intForLoading = randomRotation.nextInt(100);
 
-        if(mDegree == 1) {
-            n = 360;
-        }else if(mDegree == 2){
-            n = 420;
+        Log.d("intForLoading", "generateIntForLoading: " + intForLoading);
 
-        }else if(mDegree == 3)
-        {
-            n = 480;
-        }else if(mDegree == 4)
-        {
-            n = 540;
-        }else if(mDegree==5)
-
-        {
-            n = 600;
-        }else if(mDegree==6)
-
-        {
-            n = 660;
+        //Need to fix the probability that determines whether a fire will be shot or not
+        //so that it's more fun to actually play
+        if (intForLoading >= 0 && intForLoading <= 25) {
+            isChamberLoaded = true;
+        } else if (intForLoading >= 26 && intForLoading <= 100) {
+            isChamberLoaded = true;
+        } else {
+            generateIntForLoading();
         }
 
-        return n;
+        Log.d("isChamberLoaded", "booleanForLoading: " + isChamberLoaded);
+
+        return isChamberLoaded;
 
     }
 }
-
-
-
-//        final Animation animRotate = AnimationUtils.loadAnimation(this, R.anim.rotate);
-//        chamber1.startAnimation(animRotate);
-//        chamber1.setPivotX(0);
-//        chamber1.setPivotY(0);
-//
-//        animRotate.setAnimationListener(new Animation.AnimationListener() {
-//            @Override
-//            public void onAnimationStart(Animation animation) {
-//                chamber1.getPivotX();
-//                chamber1.getPivotY();
-//
-//            }
-//
-//            @Override
-//            public void onAnimationEnd(Animation animation) {
-//
-//            }
-//
-//            @Override
-//            public void onAnimationRepeat(Animation rotate) {
-//
-//            }
-//        });
-//
-//    }
-//}
