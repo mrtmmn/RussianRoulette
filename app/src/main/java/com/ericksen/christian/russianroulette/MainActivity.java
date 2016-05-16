@@ -16,8 +16,6 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
-    ImageButton imageButtonMarker;
-
     ImageView imageViewChamber1;
     ImageView imageViewChamber2;
     ImageView imageViewChamber3;
@@ -29,7 +27,6 @@ public class MainActivity extends AppCompatActivity {
     Button buttonForShooting;
     Button buttonForSpinning;
 
-    RelativeLayout relativeLayoutMarker;
     RelativeLayout relativeLayoutCylinder;
 
     boolean isChamberLoaded;
@@ -39,9 +36,6 @@ public class MainActivity extends AppCompatActivity {
     int ranIntToDetermineRotation;
     int temp = 0;
     int count = 0;
-//    int updateCount = 0;
-//    int multiplier = 0;
-//    int addition = 0;
 
     int[] iVCCOnScreen = new int[2];
     int[] iVCCInWindow = new int[2];
@@ -55,9 +49,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         relativeLayoutCylinder = (RelativeLayout) findViewById(R.id.relative_layout_cylinder);
-        relativeLayoutMarker = (RelativeLayout) findViewById(R.id.relative_layout_marker);
-
-        imageButtonMarker = (ImageButton) findViewById(R.id.image_marker);
 
         imageViewChamber1 = (ImageView) findViewById(R.id.chamber1);
         imageViewChamber2 = (ImageView) findViewById(R.id.chamber2);
@@ -89,21 +80,6 @@ public class MainActivity extends AppCompatActivity {
                 //and a decrescendo at the end in terms of speed so to mimick the force of gravity
 
                 Log.d("pre-dIVP", "ObjectAnimator: " + temp);
-
-//                if (numberOfRotations == 1) {
-//                    temp = ranIntToDetermineRotation;
-//                    count = temp;
-//                    updateCount = determiningIVPosForFirstTime(count);
-//                    Log.d("dIVPFFT", "dIVPFFT: " + temp);
-//                    Log.d("dIVPFFT2", "dIVPFFT2: " + updateCount);
-//                } else if (numberOfRotations > 1) {
-//                    temp += ranIntToDetermineRotation;
-//                    count = temp;
-//                    updateCount = determiningImageViewPositioning(count);
-//                    Log.d("dIVP", "dIVP: " + temp);
-//                    Log.d("dIVP2", "dIVP2: " + updateCount);
-//                }
-
                 Log.d("count_variable", "ObjectAnimator: " + count);
                 //add animation that takes ranIntToDetermineRotation as a value for transformation
 
@@ -288,261 +264,3 @@ public class MainActivity extends AppCompatActivity {
 
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//                PropertyValuesHolder rotationX = PropertyValuesHolder.ofFloat(View.ROTATION, temp, ranIntToDetermineRotation);
-//                PropertyValuesHolder rotationY = PropertyValuesHolder.ofFloat(View.ROTATION, temp, ranIntToDetermineRotation);
-//
-//                ObjectAnimator rotateBarrel =
-//                        ObjectAnimator.ofPropertyValuesHolder(relativeLayoutCylinder, rotationX, rotationY);
-//                rotateBarrel.setDuration(1000);
-//                rotateBarrel.start();
-
-
-//                ObjectAnimator rotateBarrel =
-//                        ObjectAnimator.ofFloat(relativeLayoutCylinder, View.ROTATION, Math.abs(temp), Math.abs(ranIntToDetermineRotation));
-//                rotateBarrel.start();
-
-//    public int determiningImageViewPositioning(int integer) {
-//
-//        Log.d("pre-integer", "determiningImageViewPositioning: " + integer);
-//        int factorsOfSixCount = 1;
-//        int dividedBySixty = integer / 60;
-//
-//        if (dividedBySixty / 6 <= 1) {
-//            integer = (Math.abs(dividedBySixty - 6));
-//            Log.d("integer", "determiningImageViewPositioning: " + integer);
-//        } else if (dividedBySixty / 6 > 1) {
-//            factorsOfSixCount++;
-//            integer = Math.abs(dividedBySixty - (6 * factorsOfSixCount));
-//            Log.d("integer2", "determiningImageViewPositioning: " + integer);
-//        }
-//
-//        Log.d("post-integer", "determiningImageViewPositioning: " + integer);
-//
-//        return integer;
-//
-//    }
-//
-//    public int determiningIVPosForFirstTime(int integer) {
-//
-//        Log.d("pre-integer", "determiningIVPosForFirstTime: " + integer);
-//        int factorsOfSixCount = 1;
-//        int dividedBySixty = integer / 60;
-//
-//        if (dividedBySixty / 6 <= 1) {
-//            integer = (Math.abs(dividedBySixty - 6)) + 1;
-//            Log.d("integer", "determiningIVPosForFirstTime: " + integer);
-//        } else if (dividedBySixty / 6 > 1) {
-//            factorsOfSixCount++;
-//            integer = Math.abs(dividedBySixty - (6 * factorsOfSixCount));
-//            Log.d("integer2", "determiningIVPosForFirstTime: " + integer);
-//        }
-//
-//        Log.d("post-integer", "determiningIVPosForFirstTime: " + integer);
-//
-//        return integer;
-//
-//    }
-
-//switch (temp) {
-//case 1: temp / 360 == 1 || temp - 0 == 0
-//        if (imageViewChamber1.getBackground() == res.getDrawable(R.drawable.chamber_filled)) {
-//        imageViewChamber1.setImageResource(R.drawable.chamber_empty);
-//        }
-//        else if (temp / 300 == 1) {
-//        if (imageViewChamber6.getBackground() == res.getDrawable(R.drawable.chamber_filled)) {
-//        imageViewChamber6.setImageResource(R.drawable.chamber_empty);
-//        }
-//        } else if (temp / 240 == 1) {
-//        if (imageViewChamber5.getBackground() == res.getDrawable(R.drawable.chamber_filled)) {
-//        imageViewChamber5.setImageResource(R.drawable.chamber_empty);
-//        }
-//        } else if (temp / 180 == 1) {
-//        if (imageViewChamber4.getBackground() == res.getDrawable(R.drawable.chamber_filled)) {
-//        imageViewChamber4.setImageResource(R.drawable.chamber_empty);
-//        }
-//        } else if (temp / 120 == 1) {
-//        if (imageViewChamber3.getBackground() == res.getDrawable(R.drawable.chamber_filled)) {
-//        imageViewChamber3.setImageResource(R.drawable.chamber_empty);
-//        }
-//        } else if (temp / 60 == 1) {
-//        if (imageViewChamber2.getBackground() == res.getDrawable(R.drawable.chamber_filled)) {
-//        imageViewChamber2.setImageResource(R.drawable.chamber_empty);
-//        }
-//        }
-//        }
-
-//        if (temp / 360 == 1 || temp - 0 == 0) {
-//        if (imageViewChamber1.getBackground() == res.getDrawable(R.drawable.chamber_filled)) {
-//        imageViewChamber1.setImageResource(R.drawable.chamber_empty);
-//        }
-//        } else if (temp / 300 == 1) {
-//        if (imageViewChamber6.getBackground() == res.getDrawable(R.drawable.chamber_filled)) {
-//        imageViewChamber6.setImageResource(R.drawable.chamber_empty);
-//        }
-//        } else if (temp / 240 == 1) {
-//        if (imageViewChamber5.getBackground() == res.getDrawable(R.drawable.chamber_filled)) {
-//        imageViewChamber5.setImageResource(R.drawable.chamber_empty);
-//        }
-//        } else if (temp / 180 == 1) {
-//        if (imageViewChamber4.getBackground() == res.getDrawable(R.drawable.chamber_filled)) {
-//        imageViewChamber4.setImageResource(R.drawable.chamber_empty);
-//        }
-//        } else if (temp / 120 == 1) {
-//        if (imageViewChamber3.getBackground() == res.getDrawable(R.drawable.chamber_filled)) {
-//        imageViewChamber3.setImageResource(R.drawable.chamber_empty);
-//        }
-//        } else if (temp / 60 == 1) {
-//        if (imageViewChamber2.getBackground() == res.getDrawable(R.drawable.chamber_filled)) {
-//        imageViewChamber2.setImageResource(R.drawable.chamber_empty);
-//        }
-//        }
-
-
-//switch (intForRotation) {
-//
-//                        case 1:
-////                                if (imageViewChamber1.getBackground() == res.getDrawable(R.drawable.chamber_filled)) {
-////                                    imageViewChamber1.setImageResource(R.drawable.chamber_empty);
-////                                } else {
-////                                    Toast toastTwo = Toast.makeText(MainActivity.this, "You're safe this time. Pass it to the next person.", Toast.LENGTH_SHORT);
-////                                    toastTwo.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
-////                                    toastTwo.show();
-////                                }
-//                            imageViewChamber1.setBackgroundResource(R.drawable.chamber_empty);
-//                            break;
-//
-//                        case 2:
-////                                if (imageViewChamber6.getBackground() == res.getDrawable(R.drawable.chamber_filled)) {
-////                                    imageViewChamber6.setImageResource(R.drawable.chamber_empty);
-////                                } else {
-////                                    Toast toastTwo = Toast.makeText(MainActivity.this, "You're safe this time. Pass it to the next person.", Toast.LENGTH_SHORT);
-////                                    toastTwo.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
-////                                    toastTwo.show();
-////                                }
-//                            imageViewChamber2.setBackgroundResource(R.drawable.chamber_empty);
-//                            break;
-//
-//                        case 3:
-////                                if (imageViewChamber5.getBackground() == res.getDrawable(R.drawable.chamber_filled)) {
-////                                    imageViewChamber5.setImageResource(R.drawable.chamber_empty);
-////                                } else {
-////                                    Toast toastTwo = Toast.makeText(MainActivity.this, "You're safe this time. Pass it to the next person.", Toast.LENGTH_SHORT);
-////                                    toastTwo.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
-////                                    toastTwo.show();
-////                                }
-//                            imageViewChamber3.setBackgroundResource(R.drawable.chamber_empty);
-//                            break;
-//
-//                        case 4:
-////                                if (imageViewChamber4.getBackground() == res.getDrawable(R.drawable.chamber_filled)) {
-////                                    imageViewChamber4.setImageResource(R.drawable.chamber_empty);
-////                                } else {
-////                                    Toast toastTwo = Toast.makeText(MainActivity.this, "You're safe this time. Pass it to the next person.", Toast.LENGTH_SHORT);
-////                                    toastTwo.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
-////                                    toastTwo.show();
-////                                }
-//                            imageViewChamber4.setBackgroundResource(R.drawable.chamber_empty);
-//                            break;
-//
-//                        case 5:
-////                                if (imageViewChamber3.getBackground() == res.getDrawable(R.drawable.chamber_filled)) {
-////                                    imageViewChamber3.setImageResource(R.drawable.chamber_empty);
-////                                } else {
-////                                    Toast toastTwo = Toast.makeText(MainActivity.this, "You're safe this time. Pass it to the next person.", Toast.LENGTH_SHORT);
-////                                    toastTwo.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
-////                                    toastTwo.show();
-////                                }
-//                            imageViewChamber5.setBackgroundResource(R.drawable.chamber_empty);
-//                            break;
-//
-//                        case 6:
-////                                if (imageViewChamber2.getBackground() == res.getDrawable(R.drawable.chamber_filled)) {
-////                                    imageViewChamber2.setImageResource(R.drawable.chamber_empty);
-////                                } else {
-////                                    Toast toastTwo = Toast.makeText(MainActivity.this, "You're safe this time. Pass it to the next person.", Toast.LENGTH_SHORT);
-////                                    toastTwo.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
-////                                    toastTwo.show();
-////                                }
-//                            imageViewChamber6.setBackgroundResource(R.drawable.chamber_empty);
-//                            break;
-//
-//                        default:
-//
-//                    }
