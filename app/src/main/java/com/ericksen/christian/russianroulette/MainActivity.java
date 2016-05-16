@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -28,20 +27,31 @@ public class MainActivity extends AppCompatActivity {
     Button buttonForSpinning;
 
     RelativeLayout relativeLayoutCylinder;
+    //contains all of the imageViewChambers
 
     boolean isChamberLoaded;
+    //algorithm - method: generateIntForLoading() - determined whether the chamber is loaded or not as opposed to filled with a blank
+    //this also generated a 25% (loaded) v 75% chance (blank) but the next step is to elaborate
+    //and provide users the choice regarding the difficulty of the odds they face
 
     int intForRotation;
     int numberOfRotations = 0;
     int ranIntToDetermineRotation;
     int temp = 0;
     int count = 0;
+    //attempt at determining the position of the ImageViews via calculating the relationship bw the ImageViews'
+    //displacement through rotation (in degrees) and the ImageView positioned at the top after every rotation
+    //but I found a better way through the getLocationOnScreen method which gave me the estimated y-axis of each
+    //ImageView for comparison
 
     int[] iVCCOnScreen = new int[2];
     int[] iVCCInWindow = new int[2];
+    //determine centerX and centerY for relative_layout_cylinder so not to have to depend on animate the
+    //entire relative_layout as opposed to just rotating all of the imageviews along a pivot
 
     int[] rLCOnScreen = new int[2];
     int[] rLCInWindow = new int[2];
+    //exact coordinates for ImageViews so to incorporate more graphics in addition to rotation
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -162,7 +172,7 @@ public class MainActivity extends AppCompatActivity {
                 int heightOfChamber5 = arrayChamber5[1];
                 int heightOfChamber6 = arrayChamber6[1];
 
-                randomIntForLoading();
+                generateIntForLoading();
                 Log.d("isChamberLoaded-onclick", "generateIntForLoading: " + isChamberLoaded);
 
                 if (!isChamberLoaded) {
@@ -241,12 +251,12 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public boolean randomIntForLoading() {
+    public boolean generateIntForLoading() {
 
         Random randomRotation = new Random();
         int intForLoading = randomRotation.nextInt(100);
 
-        Log.d("intForLoading", "randomIntForLoading: " + intForLoading);
+        Log.d("intForLoading", "generateIntForLoading: " + intForLoading);
 
         //Need to fix the probability that determines whether a fire will be shot or not
         //so that it's more fun to actually play
@@ -255,10 +265,10 @@ public class MainActivity extends AppCompatActivity {
         } else if (intForLoading >= 26 && intForLoading <= 100) {
             isChamberLoaded = true;
         } else {
-            randomIntForLoading();
+            generateIntForLoading();
         }
 
-        Log.d("isChamberLoaded", "generateIntForLoading: " + isChamberLoaded);
+        Log.d("isChamberLoaded", "booleanForLoading: " + isChamberLoaded);
 
         return isChamberLoaded;
 
