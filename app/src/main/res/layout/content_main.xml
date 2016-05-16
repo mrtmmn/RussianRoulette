@@ -15,8 +15,8 @@
     android:background="#0000ff">
 
     <RelativeLayout
-        android:layout_width="190dp"
-        android:layout_height="190dp"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         android:layout_centerInParent="true"
         android:id="@+id/relative_layout_cylinder"
         android:background="#0000ff">
@@ -97,6 +97,23 @@
         android:layout_toStartOf="@+id/chamber4"
         android:backgroundTint="#ffff00" />
 
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/relative_layout_marker"
+        android:layout_above="@id/relative_layout_cylinder">
+
+        <ImageButton
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/arrow"
+            android:scaleType="fitXY"
+            android:id="@+id/image_marker"/>
 
     </RelativeLayout>
 
